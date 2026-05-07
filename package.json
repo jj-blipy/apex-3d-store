@@ -1,0 +1,22 @@
+{
+  "name": "apex-3d-store",
+  "version": "1.0.0",
+  "description": "Apex 3D Creations online store",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.1",
+    "express-rate-limit": "^8.5.0",
+    "express-session": "^1.19.0",
+    "helmet": "^8.1.0",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.7",
+    "sqlite3": "^5.1.7",
+    "stripe": "^14.25.0"
+  }
+}

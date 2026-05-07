@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Apex 3D Creations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:white}
+header{background:#020617;padding:20px;text-align:center}
+.logo{font-size:32px;color:#3b82f6;font-weight:bold}
+.hero{text-align:center;padding:45px 20px;background:linear-gradient(135deg,#020617,#1e293b)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:auto;padding:20px}
+.box{background:#1e293b;padding:20px;border-radius:14px}
+input,button{padding:12px;margin:6px;border-radius:8px;border:none;width:90%;max-width:500px}
+button{background:#3b82f6;color:white;cursor:pointer}
+.passwordRow{display:flex;gap:8px;align-items:center}
+.passwordRow input{flex:1}
+.passwordRow button{width:auto}
+.badge{display:inline-block;background:#16a34a;padding:8px 12px;border-radius:999px;margin:5px}
+footer{text-align:center;background:#020617;padding:25px;margin-top:30px}
+@media(max-width:600px){.logo{font-size:26px}.hero{padding:30px 15px}button,input{width:100%;box-sizing:border-box}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Apex 3D Creations</div>
+  <p>Custom 3D Printed Items</p>
+</header>
+
+<section class="hero">
+  <h1>Custom 3D Printed Creations</h1>
+  <p>Dragons, toys, organizers, and custom prints.</p>
+  <span class="badge">Secure Orders</span>
+  <span class="badge">Made in USA</span>
+  <span class="badge">Custom Prints</span>
+  <br><br>
+  <button onclick="location.href='/shop.html'">Enter Store</button>
+</section>
+
+<div class="grid">
+
+<div class="box">
+<h2>Admin Login</h2>
+<div class="passwordRow">
+<input id="adminPass" type="password" placeholder="Admin Password">
+<button onclick="togglePassword('adminPass')">👁</button>
+</div>
+<button onclick="adminLogin()">Admin Login</button>
+</div>
+
+<div class="box">
+<h2>Customer Login</h2>
+<input id="loginContact" placeholder="Email or Phone">
+<div class="passwordRow">
+<input id="loginPass" type="password" placeholder="Password">
+<button onclick="togglePassword('loginPass')">👁</button>
+</div>
+<button onclick="login()">Login</button>
+</div>
+
+<div class="box">
+<h2>Create Account</h2>
+<input id="signupUser" placeholder="Username">
+<input id="signupContact" placeholder="Email">
+<input id="signupPhone" placeholder="Phone Number">
+<div class="passwordRow">
+<input id="signupPass" type="password" placeholder="Password">
+<button onclick="togglePassword('signupPass')">👁</button>
+</div>
+<button onclick="signup()">Create Account</button>
+</div>
+
+</div>
+
+<footer>
+<p>Email us: <b>hi0888990@gmail.com</b></p>
+<p>© 2026 Apex 3D Creations</p>
+</footer>
+
+<script>
+function togglePassword(id){
+  const input=document.getElementById(id);
+  input.type=input.type==="password"?"text":"password";
+}
+
+async function adminLogin(){
+  const password=adminPass.value;
+  const res=await fetch("/admin-login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password})});
+  const data=await res.json();
+  if(data.success) location.href="/shop.html";
+  else alert(data.message || "Admin login failed");
+}
+
+async function login(){
+  const contact=loginContact.value;
+  const password=loginPass.value;
+  const res=await fetch("/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contact,password})});
+  const data=await res.json();
+  if(data.success) location.href="/shop.html";
+  else alert(data.message || "Login failed");
+}
+
+async function signup(){
+  const username=signupUser.value;
+  const contact=signupContact.value;
+  const phone=signupPhone.value;
+  const password=signupPass.value;
+
+  const res=await fetch("/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,contact,phone,password})});
+  const data=await res.json();
+
+  if(data.success) location.href="/shop.html";
+  else alert(data.message || "Signup failed");
+}
+</script>
+
+</body>
+</html>

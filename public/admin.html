@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin - Apex 3D</title>
+<style>
+body {
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
+  padding:20px;
+}
+.card {
+  background:#1e293b;
+  padding:15px;
+  margin:10px 0;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Orders</h1>
+<div id="orders"></div>
+
+<script>
+fetch('/orders')
+.then(res=>res.json())
+.then(data=>{
+  let html="";
+  data.forEach(o=>{
+    html += `
+      <div class="card">
+        <strong>Order #${o.id}</strong><br>
+        Name: ${o.name}<br>
+        Address: ${o.address}<br>
+        Total: $${o.total}<br>
+      </div>
+    `;
+  });
+  document.getElementById("orders").innerHTML = html;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Apex 3D Creations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:white}
+header{background:#020617;padding:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.logo{color:#3b82f6;font-size:24px;font-weight:bold}
+.nav{display:flex;flex-wrap:wrap;gap:5px}
+button{background:#3b82f6;color:white;border:none;padding:10px;border-radius:8px;margin:4px;cursor:pointer}
+button:hover{background:#2563eb}
+.danger{background:#dc2626}
+input,textarea,select{padding:10px;margin:6px;border-radius:8px;border:none;width:90%;max-width:500px}
+.panel{display:none;padding:25px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.card,.box,.order-card{background:#1e293b;padding:16px;border-radius:14px;margin:10px;box-shadow:0 8px 20px #0005}
+.card img{width:100%;height:190px;object-fit:cover;border-radius:10px;background:#334155}
+.price{color:#22c55e;font-size:22px;font-weight:bold}
+.badge{background:#f97316;padding:4px 8px;border-radius:999px;font-size:12px}
+.admin-only{display:none}
+.hero{text-align:center;padding:35px;background:linear-gradient(135deg,#020617,#1e293b)}
+footer{text-align:center;background:#020617;padding:25px;margin-top:30px}
+@media(max-width:600px){header{display:block;text-align:center}.nav button{width:100%}.panel{padding:12px}.products{grid-template-columns:1fr}input,textarea,select,button{width:100%;box-sizing:border-box}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Apex 3D Creations</div>
+  <div class="nav">
+    <button onclick="showPanel('shopPanel')">Shop</button>
+    <button onclick="showPanel('cartPanel')">Cart (<span id="cartCount">0</span>)</button>
+    <button onclick="showMyOrders()">My Orders</button>
+    <button id="adminBtn" class="admin-only" onclick="showAdmin()">Admin</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<div id="userBox" class="box">Loading...</div>
+
+<section class="hero">
+  <h1>Custom 3D Printed Creations</h1>
+  <p>Dragons, toys, organizers, and custom prints.</p>
+</section>
+
+<section id="shopPanel" class="panel">
+  <h2>Products</h2>
+  <input id="search" placeholder="Search products..." oninput="renderProducts()">
+  <select id="categoryFilter" onchange="renderProducts()">
+    <option value="">All Categories</option>
+  </select>
+  <div id="products" class="products"></div>
+</section>
+
+<section id="cartPanel" class="panel">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <h3 id="cartTotal">Total: $0.00</h3>
+
+  <h2>Checkout</h2>
+  <input id="name" placeholder="Full Name">
+  <input id="phone" placeholder="Phone Number">
+  <input id="address" placeholder="Shipping Address">
+  <textarea id="notes" placeholder="Order notes"></textarea>
+
+  <button onclick="checkout()">Place Order & Pay With PayPal</button>
+</section>
+
+<section id="myOrdersPanel" class="panel">
+  <h2>My Orders</h2>
+  <div id="myOrders"></div>
+</section>
+
+<section id="adminPanel" class="panel">
+  <h2>Admin Dashboard</h2>
+  <div id="stats" class="products"></div>
+
+  <h2>Add Product With Picture</h2>
+  <div class="box">
+    <input id="addName" placeholder="Product Name">
+    <input id="addPrice" placeholder="Price">
+    <input id="addDescription" placeholder="Description">
+    <input id="addCategory" placeholder="Category">
+    <input id="addStock" placeholder="Stock">
+    <input id="addColors" placeholder="Colors">
+    <input id="addMaterials" placeholder="Materials">
+    <input id="addBadge" placeholder="Badge">
+    <p>Product Image:</p>
+    <input id="addImage" type="file" accept="image/*">
+    <label><input id="addFeatured" type="checkbox"> Featured</label><br>
+    <label><input id="addBestSeller" type="checkbox"> Best Seller</label><br>
+    <label><input id="addTrending" type="checkbox"> Trending</label><br>
+    <label><input id="addLimited" type="checkbox"> Limited</label><br>
+    <button onclick="addProduct()">Add Product</button>
+  </div>
+
+  <h2>Manage Products</h2>
+  <div id="adminProducts"></div>
+
+  <h2>All Orders</h2>
+  <div id="adminOrders"></div>
+</section>
+
+<footer>
+  <p>Email us: <b>hi0888990@gmail.com</b></p>
+  <p>© 2026 Apex 3D Creations</p>
+</footer>
+
+<script>
+let products = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let isAdmin = false;
+
+function showPanel(id){
+  document.querySelectorAll(".panel").forEach(p => p.style.display = "none");
+  document.getElementById(id).style.display = "block";
+}
+
+async function loadUser(){
+  const res = await fetch("/me");
+  const data = await res.json();
+
+  isAdmin = data.admin;
+
+  if(data.admin){
+    userBox.innerText = "Logged in as Admin";
+    adminBtn.style.display = "inline-block";
+  } else if(data.customer){
+    userBox.innerText = "Logged in as " + data.user.username + " | Phone: " + (data.user.phone || "");
+  } else {
+    userBox.innerText = "Browsing as Guest";
+  }
+}
+
+async function loadProducts(){
+  const res = await fetch("/products");
+  products = await res.json();
+
+  const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
+  categoryFilter.innerHTML =
+    '<option value="">All Categories</option>' +
+    cats.map(c => `<option>${c}</option>`).join("");
+
+  renderProducts();
+  if(isAdmin) renderAdminProducts();
+}
+
+function renderProducts(){
+  const searchText = search.value.toLowerCase();
+  const cat = categoryFilter.value;
+
+  let list = products.filter(p =>
+    (p.name + " " + p.description + " " + p.category).toLowerCase().includes(searchText)
+  );
+
+  if(cat) list = list.filter(p => p.category === cat);
+
+  document.getElementById("products").innerHTML = list.map(productCard).join("") || "<p>No products found.</p>";
+}
+
+function productCard(p){
+  const img = p.image_url || `https://via.placeholder.com/300x200?text=${encodeURIComponent(p.name)}`;
+
+  return `
+    <div class="card">
+      <img src="${img}">
+      <h3>${p.name}</h3>
+      <span class="badge">${p.badge || p.category || "3D Print"}</span>
+      <p>${p.description || ""}</p>
+      <p class="price">$${Number(p.price).toFixed(2)}</p>
+      <p>Stock: ${p.stock}</p>
+      <p>Colors: ${p.colors || "Any"}</p>
+      <p>Materials: ${p.materials || "PLA"}</p>
+      <button onclick="addToCart(${p.id})">Add to Cart</button>
+    </div>
+  `;
+}
+
+function renderAdminProducts(){
+  adminProducts.innerHTML = products.map(p => `
+    <div class="box">
+      <strong>${p.name}</strong><br>
+      $${Number(p.price).toFixed(2)}<br>
+      Stock: ${p.stock}<br>
+      <button class="danger" onclick="removeProduct(${p.id})">Remove Product</button>
+    </div>
+  `).join("") || "No products.";
+}
+
+async function removeProduct(id){
+  if(!confirm("Remove this product from your store?")) return;
+
+  const res = await fetch("/admin/products/" + id, {
+    method:"DELETE"
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    alert("Product removed");
+    await loadProducts();
+    renderAdminProducts();
+  } else {
+    alert(data.message || "Could not remove product");
+  }
+}
+
+function addToCart(id){
+  const p = products.find(x => x.id === id);
+  const existing = cart.find(i => i.id === id);
+
+  if(existing) existing.qty++;
+  else cart.push({ id: p.id, name: p.name, price: p.price, qty: 1 });
+
+  updateCart();
+  alert(p.name + " added to cart");
+}
+
+function updateCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  let total = 0;
+  let count = 0;
+
+  cartItems.innerHTML = cart.map((item, index) => {
+    total += item.price * item.qty;
+    count += item.qty;
+
+    return `
+      <div class="box">
+        <strong>${item.name}</strong><br>
+        $${Number(item.price).toFixed(2)} x ${item.qty}<br>
+        <button onclick="changeQty(${index}, -1)">-</button>
+        <button onclick="changeQty(${index}, 1)">+</button>
+      </div>
+    `;
+  }).join("") || "Cart is empty";
+
+  cartTotal.innerText = "Total: $" + total.toFixed(2);
+  cartCount.innerText = count;
+}
+
+function changeQty(index, amount){
+  cart[index].qty += amount;
+  if(cart[index].qty <= 0) cart.splice(index, 1);
+  updateCart();
+}
+
+async function checkout(){
+  const fullName = name.value;
+  const phoneNumber = phone.value;
+  const shippingAddress = address.value;
+
+  if(cart.length === 0) return alert("Cart is empty");
+  if(!fullName || !phoneNumber || !shippingAddress) return alert("Enter name, phone, and address");
+
+  let expandedCart = [];
+  cart.forEach(item => {
+    for(let i = 0; i < item.qty; i++){
+      expandedCart.push({ name: item.name, price: item.price });
+    }
+  });
+
+  const res = await fetch("/create-checkout", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({
+      cart: expandedCart,
+      name: fullName,
+      phone: phoneNumber,
+      address: shippingAddress
+    })
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    alert("Order #" + data.orderId + "\\nTotal: $" + data.total + "\\nSend exact amount through PayPal.");
+    cart = [];
+    updateCart();
+    window.open(data.paypalUrl, "_blank");
+    showPanel("shopPanel");
+  } else {
+    alert(data.message || "Checkout failed");
+  }
+}
+
+async function showMyOrders(){
+  showPanel("myOrdersPanel");
+
+  const res = await fetch("/my-orders");
+
+  if(!res.ok){
+    myOrders.innerHTML = "Login required.";
+    return;
+  }
+
+  const orders = await res.json();
+
+  myOrders.innerHTML = orders.map(o => `
+    <div class="order-card">
+      <strong>Order #${o.id}</strong><br>
+      Status: ${o.status}<br>
+      Payment: ${o.payment_status}<br>
+      Total: $${o.total}<br>
+      Items: ${o.items.map(i => i.name).join(", ")}
+    </div>
+  `).join("") || "No orders yet.";
+}
+
+async function showAdmin(){
+  showPanel("adminPanel");
+  await loadStats();
+  await loadAdminOrders();
+  renderAdminProducts();
+}
+
+async function loadStats(){
+  const res = await fetch("/admin/stats");
+  const s = await res.json();
+
+  stats.innerHTML = `
+    <div class="box">Orders: ${s.orders}</div>
+    <div class="box">Revenue: $${s.revenue}</div>
+    <div class="box">Customers: ${s.customers}</div>
+    <div class="box">Products: ${s.products}</div>
+  `;
+}
+
+async function loadAdminOrders(){
+  const res = await fetch("/orders");
+
+  if(!res.ok){
+    adminOrders.innerHTML = "Admin login required.";
+    return;
+  }
+
+  const orders = await res.json();
+
+  adminOrders.innerHTML = orders.map(order => `
+    <div class="order-card">
+      <strong>Order #${order.id}</strong><br>
+      Username: ${order.username}<br>
+      Name: ${order.name}<br>
+      Phone: ${order.phone || ""}<br>
+      Address: ${order.address}<br>
+      Total: $${order.total}<br>
+      Payment: ${order.payment_status}<br>
+      Status: ${order.status}<br>
+      Items: ${order.items.map(i => i.name).join(", ")}
+    </div>
+  `).join("") || "No orders yet.";
+}
+
+async function addProduct(){
+  const formData = new FormData();
+
+  formData.append("name", addName.value);
+  formData.append("price", addPrice.value);
+  formData.append("description", addDescription.value);
+  formData.append("category", addCategory.value);
+  formData.append("stock", addStock.value);
+  formData.append("colors", addColors.value);
+  formData.append("materials", addMaterials.value);
+  formData.append("badge", addBadge.value);
+
+  if(addFeatured.checked) formData.append("featured", "1");
+  if(addBestSeller.checked) formData.append("best_seller", "1");
+  if(addTrending.checked) formData.append("trending", "1");
+  if(addLimited.checked) formData.append("limited", "1");
+
+  if(addImage.files[0]) formData.append("image", addImage.files[0]);
+
+  const res = await fetch("/admin/products", {
+    method:"POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    alert("Product added");
+    addName.value="";
+    addPrice.value="";
+    addDescription.value="";
+    addCategory.value="";
+    addStock.value="";
+    addColors.value="";
+    addMaterials.value="";
+    addBadge.value="";
+    addImage.value="";
+    await loadProducts();
+    renderAdminProducts();
+  } else {
+    alert(data.message || "Product failed");
+  }
+}
+
+async function logout(){
+  await fetch("/logout", { method:"POST" });
+  localStorage.removeItem("cart");
+  location.href = "/";
+}
+
+loadUser().then(loadProducts);
+updateCart();
+showPanel("shopPanel");
+</script>
+
+</body>
+</html>
