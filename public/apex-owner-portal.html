@@ -1,10 +1,238 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Apex Owner Portal</title>
+  <title>Apex Owner Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #070b16;
+      color: white;
+      padding: 35px 7%;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 5px;
+    }
+
+    .muted {
+      color: #94a3b8;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 24px;
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.45);
+    }
+
+    input, select {
+      border: 1px solid #334155;
+      background: #020617;
+      color: white;
+      padding: 13px;
+      border-radius: 14px;
+      margin: 6px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-weight: 800;
+      color: white;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 16px;
+    }
+
+    .stat {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .order {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    .inventory-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 12px 0;
+      border-bottom: 1px solid #1f2937;
+    }
+  </style>
 </head>
-<body style="background:#070b16;color:white;font-family:Arial;padding:40px;">
-<h1>Apex Owner Portal</h1>
-<p>Admin page uploaded correctly.</p>
+
+<body>
+  <h1>Apex Owner Portal</h1>
+  <p class="muted">Hidden admin dashboard for inventory, orders, analytics, and tracking status.</p>
+
+  <div class="card" id="loginBox">
+    <h2>Admin Login</h2>
+    <input id="adminPassword" type="password" placeholder="Admin password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <div class="card">
+      <h2>Analytics Dashboard</h2>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="card">
+      <h2>Inventory System</h2>
+      <p class="muted">Edit product stock counts here.</p>
+      <div id="inventory"></div>
+    </div>
+
+    <div class="card">
+      <h2>Orders</h2>
+      <p class="muted">Update order status: Processing → Printing → Shipped → Delivered.</p>
+      <div id="orders"></div>
+    </div>
+  </div>
+
+  <script>
+    let adminPass = "";
+
+    function login() {
+      adminPass = document.getElementById("adminPassword").value.trim();
+
+      if (!adminPass) {
+        alert("Enter admin password.");
+        return;
+      }
+
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+
+      loadAdmin();
+    }
+
+    async function adminFetch(url, options = {}) {
+      options.headers = {
+        ...(options.headers || {}),
+        "Content-Type": "application/json",
+        "x-admin-password": adminPass
+      };
+
+      return fetch(url, options);
+    }
+
+    async function loadAdmin() {
+      const res = await adminFetch("/api/admin/analytics");
+      const data = await res.json();
+
+      if (data.error) {
+        alert("Wrong admin password.");
+        location.reload();
+        return;
+      }
+
+      document.getElementById("stats").innerHTML = `
+        <div class="stat">
+          <h3>Total Orders</h3>
+          <h2>${data.totalOrders}</h2>
+        </div>
+
+        <div class="stat">
+          <h3>Revenue</h3>
+          <h2>$${Number(data.revenue).toFixed(2)}</h2>
+        </div>
+
+        <div class="stat">
+          <h3>Visitors</h3>
+          <h2>${data.visitors}</h2>
+        </div>
+
+        <div class="stat">
+          <h3>Cart Opens</h3>
+          <h2>${data.cartsOpened}</h2>
+        </div>
+      `;
+
+      document.getElementById("inventory").innerHTML = data.products.map(product => `
+        <div class="inventory-row">
+          <b>${product.name}</b>
+          <span>Sold: ${product.sold}</span>
+          <span>Stock:</span>
+          <input id="stock${product.id}" value="${product.stock}" style="width:80px;">
+          <button onclick="updateStock(${product.id})">Save Stock</button>
+        </div>
+      `).join("");
+
+      document.getElementById("orders").innerHTML = data.orders.length
+        ? data.orders.map(order => `
+          <div class="order">
+            <h3>${order.id}</h3>
+            <p><b>${order.name}</b></p>
+            <p>${order.phone} | ${order.email}</p>
+            <p>${order.streetAddress}</p>
+            <p>${order.city}, ${order.state} ${order.zip}</p>
+            <p>Total: $${order.total}</p>
+            <p>Notes: ${order.notes || "None"}</p>
+            <p>Items: ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}</p>
+            <p class="muted">${order.date}</p>
+
+            <select id="status${order.id}">
+              <option ${order.status === "Processing" ? "selected" : ""}>Processing</option>
+              <option ${order.status === "Printing" ? "selected" : ""}>Printing</option>
+              <option ${order.status === "Shipped" ? "selected" : ""}>Shipped</option>
+              <option ${order.status === "Delivered" ? "selected" : ""}>Delivered</option>
+            </select>
+
+            <button onclick="updateStatus('${order.id}')">Update Status</button>
+          </div>
+        `).join("")
+        : "<p class='muted'>No orders yet.</p>";
+    }
+
+    async function updateStock(id) {
+      const stock = document.getElementById("stock" + id).value;
+
+      await adminFetch("/api/admin/stock", {
+        method: "POST",
+        body: JSON.stringify({ id, stock })
+      });
+
+      alert("Stock updated.");
+      loadAdmin();
+    }
+
+    async function updateStatus(id) {
+      const status = document.getElementById("status" + id).value;
+
+      await adminFetch("/api/admin/order-status", {
+        method: "POST",
+        body: JSON.stringify({ id, status })
+      });
+
+      alert("Order status updated.");
+      loadAdmin();
+    }
+  </script>
 </body>
 </html>

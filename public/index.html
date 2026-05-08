@@ -1,118 +1,729 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Apex 3D Creations</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{margin:0;font-family:Arial;background:#0f172a;color:white}
-header{background:#020617;padding:20px;text-align:center}
-.logo{font-size:32px;color:#3b82f6;font-weight:bold}
-.hero{text-align:center;padding:45px 20px;background:linear-gradient(135deg,#020617,#1e293b)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:auto;padding:20px}
-.box{background:#1e293b;padding:20px;border-radius:14px}
-input,button{padding:12px;margin:6px;border-radius:8px;border:none;width:90%;max-width:500px}
-button{background:#3b82f6;color:white;cursor:pointer}
-.passwordRow{display:flex;gap:8px;align-items:center}
-.passwordRow input{flex:1}
-.passwordRow button{width:auto}
-.badge{display:inline-block;background:#16a34a;padding:8px 12px;border-radius:999px;margin:5px}
-footer{text-align:center;background:#020617;padding:25px;margin-top:30px}
-@media(max-width:600px){.logo{font-size:26px}.hero{padding:30px 15px}button,input{width:100%;box-sizing:border-box}}
-</style>
+  <title>Apex 3D Creations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Apex 3D Creations sells custom 3D printed items, figures, parts, gifts, and personalized prints.">
+  <link rel="manifest" href="/manifest.json">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #070b16;
+      color: #ffffff;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 11, 22, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid #1f2937;
+      padding: 18px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-weight: 800;
+      color: white;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    button:disabled {
+      background: #374151;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .hero {
+      padding: 100px 7%;
+      text-align: center;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.35), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.3), transparent 30%),
+        linear-gradient(135deg, #0f172a, #111827);
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 76px);
+      margin: 0;
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 20px auto;
+      color: #cbd5e1;
+      font-size: 20px;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .section {
+      padding: 45px 7%;
+    }
+
+    .section-title {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .muted {
+      color: #94a3b8;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .feature {
+      background: rgba(17, 24, 39, 0.8);
+      border: 1px solid #1f2937;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.4);
+      animation: rise 0.45s ease;
+    }
+
+    .card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 20px;
+      background: #020617;
+    }
+
+    .product-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .price {
+      font-size: 25px;
+      font-weight: 900;
+      color: #93c5fd;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin: 5px 0;
+    }
+
+    .in-stock {
+      background: rgba(34, 197, 94, 0.14);
+      color: #4ade80;
+    }
+
+    .low-stock {
+      background: rgba(245, 158, 11, 0.14);
+      color: #fbbf24;
+    }
+
+    .sold-out {
+      background: rgba(239, 68, 68, 0.14);
+      color: #f87171;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 300px;
+      border-radius: 20px;
+      background: #020617;
+      margin: 14px 0;
+      border: 1px solid #1f2937;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #334155;
+      background: #020617;
+      color: white;
+      padding: 14px;
+      border-radius: 14px;
+      margin: 8px 0;
+      outline: none;
+      font-size: 15px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #60a5fa;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+    }
+
+    .cart-box {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .order-card {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .reviews {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #1f2937;
+    }
+
+    .review {
+      background: #020617;
+      padding: 12px;
+      border-radius: 14px;
+      margin-top: 10px;
+      color: #cbd5e1;
+    }
+
+    #chat {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 320px;
+      max-width: calc(100vw - 40px);
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.55);
+      z-index: 200;
+    }
+
+    #chatMessages {
+      height: 145px;
+      overflow-y: auto;
+      color: #cbd5e1;
+      font-size: 14px;
+      padding-right: 5px;
+    }
+
+    footer {
+      padding: 35px 7%;
+      text-align: center;
+      color: #94a3b8;
+      border-top: 1px solid #1f2937;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 700px) {
+      header {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      #chat {
+        position: static;
+        width: auto;
+        margin: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <header>
+    <div class="logo">Apex 3D Creations</div>
+    <div class="nav-actions">
+      <button onclick="scrollToShop()">Shop</button>
+      <button onclick="showCart()">Cart (<span id="cartCount">0</span>)</button>
+    </div>
+  </header>
 
-<header>
-  <div class="logo">Apex 3D Creations</div>
-  <p>Custom 3D Printed Items</p>
-</header>
+  <section class="hero">
+    <h1>Custom 3D Prints Built For You</h1>
+    <p>
+      Professional custom 3D printed products, figures, parts, gifts, decorations,
+      and personalized designs with order tracking and 3D previews.
+    </p>
 
-<section class="hero">
-  <h1>Custom 3D Printed Creations</h1>
-  <p>Dragons, toys, organizers, and custom prints.</p>
-  <span class="badge">Secure Orders</span>
-  <span class="badge">Made in USA</span>
-  <span class="badge">Custom Prints</span>
-  <br><br>
-  <button onclick="location.href='/shop.html'">Enter Store</button>
-</section>
+    <div class="hero-buttons">
+      <button onclick="scrollToShop()">Start Shopping</button>
+      <button onclick="document.getElementById('tracking').scrollIntoView({behavior:'smooth'})">Track Order</button>
+    </div>
+  </section>
 
-<div class="grid">
+  <section class="section">
+    <h2 class="section-title">Why Shop With Apex?</h2>
+    <p class="muted">Fast custom orders, clear tracking, and clean 3D printed products.</p>
 
-<div class="box">
-<h2>Admin Login</h2>
-<div class="passwordRow">
-<input id="adminPass" type="password" placeholder="Admin Password">
-<button onclick="togglePassword('adminPass')">👁</button>
-</div>
-<button onclick="adminLogin()">Admin Login</button>
-</div>
+    <div class="features">
+      <div class="feature">
+        <h3>Order Tracking</h3>
+        <p class="muted">Track status from Processing to Printing, Shipped, and Delivered.</p>
+      </div>
+      <div class="feature">
+        <h3>3D Model Viewer</h3>
+        <p class="muted">Rotate and zoom supported 3D models before ordering.</p>
+      </div>
+      <div class="feature">
+        <h3>Reviews</h3>
+        <p class="muted">Customers can leave star ratings and product feedback.</p>
+      </div>
+      <div class="feature">
+        <h3>Mobile App Support</h3>
+        <p class="muted">Install the site on your phone with PWA support.</p>
+      </div>
+    </div>
+  </section>
 
-<div class="box">
-<h2>Customer Login</h2>
-<input id="loginContact" placeholder="Email or Phone">
-<div class="passwordRow">
-<input id="loginPass" type="password" placeholder="Password">
-<button onclick="togglePassword('loginPass')">👁</button>
-</div>
-<button onclick="login()">Login</button>
-</div>
+  <section class="section" id="shopSection">
+    <h2 class="section-title">Shop Products</h2>
+    <p class="muted">Pick a product, add it to cart, and checkout with PayPal.</p>
+    <div class="grid" id="products"></div>
+  </section>
 
-<div class="box">
-<h2>Create Account</h2>
-<input id="signupUser" placeholder="Username">
-<input id="signupContact" placeholder="Email">
-<input id="signupPhone" placeholder="Phone Number">
-<div class="passwordRow">
-<input id="signupPass" type="password" placeholder="Password">
-<button onclick="togglePassword('signupPass')">👁</button>
-</div>
-<button onclick="signup()">Create Account</button>
-</div>
+  <section class="section">
+    <div class="card">
+      <h2>Checkout</h2>
+      <p class="muted">
+        Enter your details below. Street address, house number, and apartment go on one line.
+      </p>
 
-</div>
+      <div class="cart-box" id="cartPreview">Your cart is empty.</div>
 
-<footer>
-<p>Email us: <b>hi0888990@gmail.com</b></p>
-<p>© 2026 Apex 3D Creations</p>
-</footer>
+      <div class="checkout-grid">
+        <input id="customerName" placeholder="Full name">
+        <input id="customerPhone" placeholder="Phone number">
+        <input id="customerEmail" placeholder="Email address">
+        <input id="streetAddress" placeholder="Street address, house number, apartment">
+        <input id="city" placeholder="City">
+        <input id="state" placeholder="State">
+        <input id="zip" placeholder="ZIP code">
+      </div>
 
-<script>
-function togglePassword(id){
-  const input=document.getElementById(id);
-  input.type=input.type==="password"?"text":"password";
-}
+      <textarea id="orderNotes" placeholder="Order notes, custom size, color, details, or file notes"></textarea>
 
-async function adminLogin(){
-  const password=adminPass.value;
-  const res=await fetch("/admin-login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password})});
-  const data=await res.json();
-  if(data.success) location.href="/shop.html";
-  else alert(data.message || "Admin login failed");
-}
+      <button onclick="placeOrder()">Place Order & Pay With PayPal</button>
+    </div>
+  </section>
 
-async function login(){
-  const contact=loginContact.value;
-  const password=loginPass.value;
-  const res=await fetch("/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contact,password})});
-  const data=await res.json();
-  if(data.success) location.href="/shop.html";
-  else alert(data.message || "Login failed");
-}
+  <section class="section" id="tracking">
+    <div class="card">
+      <h2>Track Your Order</h2>
+      <p class="muted">Enter the same phone number used at checkout.</p>
+      <input id="trackPhone" placeholder="Phone number">
+      <button onclick="loadOrders()">Track Order</button>
+      <div id="ordersBox"></div>
+    </div>
+  </section>
 
-async function signup(){
-  const username=signupUser.value;
-  const contact=signupContact.value;
-  const phone=signupPhone.value;
-  const password=signupPass.value;
+  <div id="chat">
+    <b>AI Shop Assistant</b>
+    <div id="chatMessages">
+      <p><b>Bot:</b> Hi! Ask me about custom prints, checkout, PayPal, tracking, or 3D models.</p>
+    </div>
+    <input id="chatInput" placeholder="Ask something...">
+    <button onclick="askBot()">Send</button>
+  </div>
 
-  const res=await fetch("/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,contact,phone,password})});
-  const data=await res.json();
+  <footer>
+    Apex 3D Creations © 2026
+  </footer>
 
-  if(data.success) location.href="/shop.html";
-  else alert(data.message || "Signup failed");
-}
-</script>
+  <script>
+    let products = [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    fetch("/api/visit", { method: "POST" }).catch(() => {});
+
+    function money(num) {
+      return Number(num).toFixed(2);
+    }
+
+    function scrollToShop() {
+      document.getElementById("shopSection").scrollIntoView({ behavior: "smooth" });
+    }
+
+    async function loadProducts() {
+      const res = await fetch("/api/products");
+      products = await res.json();
+
+      const box = document.getElementById("products");
+      box.innerHTML = "";
+
+      products.forEach(product => {
+        const average = product.reviews.length
+          ? (product.reviews.reduce((sum, r) => sum + Number(r.rating), 0) / product.reviews.length).toFixed(1)
+          : "No reviews yet";
+
+        let stockClass = "in-stock";
+        let stockText = "In stock: " + product.stock;
+
+        if (product.stock <= 3 && product.stock > 0) {
+          stockClass = "low-stock";
+          stockText = "Low stock: " + product.stock;
+        }
+
+        if (product.stock <= 0) {
+          stockClass = "sold-out";
+          stockText = "Sold out";
+        }
+
+        box.innerHTML += `
+          <div class="card">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-title">
+              <h2>${product.name}</h2>
+              <div class="price">$${money(product.price)}</div>
+            </div>
+
+            <p class="muted">${product.description}</p>
+            <span class="pill ${stockClass}">${stockText}</span>
+            <p>⭐ ${average}</p>
+
+            <model-viewer src="${product.model}" camera-controls auto-rotate></model-viewer>
+
+            <button ${product.stock <= 0 ? "disabled" : ""} onclick="addToCart(${product.id})">
+              Add to Cart
+            </button>
+
+            <div class="reviews">
+              <h3>Reviews</h3>
+
+              <input id="reviewName${product.id}" placeholder="Your name">
+              <select id="reviewRating${product.id}">
+                <option value="5">5 stars</option>
+                <option value="4">4 stars</option>
+                <option value="3">3 stars</option>
+                <option value="2">2 stars</option>
+                <option value="1">1 star</option>
+              </select>
+              <textarea id="reviewText${product.id}" placeholder="Write a review"></textarea>
+              <button onclick="addReview(${product.id})">Post Review</button>
+
+              ${
+                product.reviews.length
+                  ? product.reviews.map(r => `
+                    <div class="review">
+                      <b>⭐${r.rating} ${r.name}</b>
+                      <p>${r.text}</p>
+                    </div>
+                  `).join("")
+                  : `<p class="muted">No reviews yet.</p>`
+              }
+            </div>
+          </div>
+        `;
+      });
+
+      updateCart();
+    }
+
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+
+      const existing = cart.find(item => item.id === id);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          qty: 1
+        });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCart();
+      alert(product.name + " added to cart.");
+    }
+
+    function updateCart() {
+      const count = cart.reduce((sum, item) => sum + Number(item.qty), 0);
+      document.getElementById("cartCount").innerText = count;
+
+      const preview = document.getElementById("cartPreview");
+
+      if (!cart.length) {
+        preview.innerHTML = "Your cart is empty.";
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
+
+      preview.innerHTML = `
+        <h3>Your Cart</h3>
+        ${cart.map(item => `
+          <p>
+            ${item.name} x ${item.qty}
+            <button onclick="removeFromCart(${item.id})">Remove</button>
+          </p>
+        `).join("")}
+        <h3>Total: $${money(total)}</h3>
+      `;
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCart();
+    }
+
+    function showCart() {
+      fetch("/api/cart-opened", { method: "POST" }).catch(() => {});
+
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
+
+      alert(
+        cart.map(item => `${item.name} x ${item.qty}`).join("\n") +
+        "\n\nTotal: $" + money(total)
+      );
+    }
+
+    async function placeOrder() {
+      const name = document.getElementById("customerName").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+      const email = document.getElementById("customerEmail").value.trim();
+      const streetAddress = document.getElementById("streetAddress").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const state = document.getElementById("state").value.trim();
+      const zip = document.getElementById("zip").value.trim();
+      const notes = document.getElementById("orderNotes").value.trim();
+
+      if (!name || !phone || !email || !streetAddress || !city || !state || !zip) {
+        alert("Please fill out name, phone, email, street address, city, state, and ZIP code.");
+        return;
+      }
+
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
+
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          streetAddress,
+          city,
+          state,
+          zip,
+          notes,
+          cart,
+          total: money(total)
+        })
+      });
+
+      const data = await res.json();
+
+      if (!data.ok) {
+        alert(data.error || "Checkout failed.");
+        return;
+      }
+
+      localStorage.removeItem("cart");
+      cart = [];
+      updateCart();
+
+      alert("Order saved! Your order number is " + data.orderId + ". Now going to PayPal.");
+
+      window.location.href = data.paypal;
+    }
+
+    async function loadOrders() {
+      const phone = document.getElementById("trackPhone").value.trim();
+
+      if (!phone) {
+        alert("Enter your phone number.");
+        return;
+      }
+
+      const res = await fetch("/api/orders/" + encodeURIComponent(phone));
+      const orders = await res.json();
+
+      const box = document.getElementById("ordersBox");
+
+      if (!orders.length) {
+        box.innerHTML = `<p class="muted">No orders found for that phone number.</p>`;
+        return;
+      }
+
+      box.innerHTML = orders.map(order => `
+        <div class="order-card">
+          <h3>${order.id}</h3>
+          <p>Status: <b>${order.status}</b></p>
+          <p>Total: $${order.total}</p>
+          <p>${order.streetAddress}</p>
+          <p>${order.city}, ${order.state} ${order.zip}</p>
+          <p class="muted">${order.date}</p>
+        </div>
+      `).join("");
+    }
+
+    async function addReview(productId) {
+      const name = document.getElementById("reviewName" + productId).value.trim();
+      const rating = document.getElementById("reviewRating" + productId).value;
+      const text = document.getElementById("reviewText" + productId).value.trim();
+
+      if (!text) {
+        alert("Write a review first.");
+        return;
+      }
+
+      await fetch("/api/review", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          productId,
+          name,
+          rating,
+          text
+        })
+      });
+
+      alert("Review posted.");
+      loadProducts();
+    }
+
+    function askBot() {
+      const inputBox = document.getElementById("chatInput");
+      const input = inputBox.value.trim();
+      const lower = input.toLowerCase();
+      const chat = document.getElementById("chatMessages");
+
+      if (!input) return;
+
+      let answer = "I can help with products, custom prints, checkout, PayPal, order tracking, and 3D models.";
+
+      if (lower.includes("order") || lower.includes("track")) {
+        answer = "Go to Track Your Order and enter the phone number you used at checkout.";
+      }
+
+      if (lower.includes("custom")) {
+        answer = "Pick Custom 3D Print Request, then describe your idea, size, color, and details in the checkout notes.";
+      }
+
+      if (lower.includes("paypal") || lower.includes("pay")) {
+        answer = "After you place your order, the site sends you to PayPal to finish payment.";
+      }
+
+      if (lower.includes("shipping")) {
+        answer = "Order statuses are Processing, Printing, Shipped, and Delivered.";
+      }
+
+      if (lower.includes("3d") || lower.includes("model")) {
+        answer = "Products with 3D previews can be rotated and zoomed using the 3D model viewer.";
+      }
+
+      if (lower.includes("price") || lower.includes("cost")) {
+        answer = "Each product shows a price. Custom prints can vary depending on size and detail.";
+      }
+
+      chat.innerHTML += `<p><b>You:</b> ${input}</p><p><b>Bot:</b> ${answer}</p>`;
+      inputBox.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+    }
+
+    loadProducts();
+  </script>
 </body>
 </html>
