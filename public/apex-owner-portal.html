@@ -5,136 +5,181 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #070b16;
-      color: white;
+    *{
+      box-sizing:border-box;
     }
 
-    button {
-      border: 0;
-      border-radius: 14px;
-      padding: 12px 16px;
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      margin: 4px;
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#070b16;
+      color:white;
     }
 
-    button.secondary {
-      background: #111827;
-      border: 1px solid #334155;
+    .hidden{
+      display:none !important;
     }
 
-    button.danger {
-      background: linear-gradient(135deg, #dc2626, #991b1b);
+    button{
+      border:0;
+      border-radius:14px;
+      padding:12px 18px;
+      color:white;
+      font-weight:800;
+      cursor:pointer;
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      margin:4px;
+      transition:.2s;
     }
 
-    input, textarea, select {
-      width: 100%;
-      border: 1px solid #334155;
-      background: #020617;
-      color: white;
-      padding: 13px;
-      border-radius: 14px;
-      margin: 7px 0;
+    button:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(0,0,0,.4);
     }
 
-    textarea {
-      min-height: 90px;
-      resize: vertical;
+    button.secondary{
+      background:#111827;
+      border:1px solid #334155;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      background: rgba(7,11,22,.92);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid #1f2937;
-      padding: 16px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+    button.danger{
+      background:linear-gradient(135deg,#dc2626,#991b1b);
     }
 
-    .logo {
-      font-size: 24px;
-      font-weight: 900;
+    input,textarea,select{
+      width:100%;
+      border:1px solid #334155;
+      background:#020617;
+      color:white;
+      padding:14px;
+      border-radius:14px;
+      margin:8px 0;
     }
 
-    .section {
-      padding: 35px 7%;
+    textarea{
+      min-height:90px;
+      resize:vertical;
     }
 
-    .hidden {
-      display: none !important;
+    header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(7,11,22,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid #1f2937;
+      padding:16px 7%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
     }
 
-    .card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: 0 18px 42px rgba(0,0,0,.4);
-      margin-top: 20px;
+    .logo{
+      font-size:24px;
+      font-weight:900;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 16px;
+    .section{
+      padding:35px 7%;
     }
 
-    .stat, .product, .order, .user, .coupon, .announcement {
-      background: #020617;
-      border: 1px solid #1f2937;
-      border-radius: 18px;
-      padding: 16px;
-      margin-top: 14px;
+    .card{
+      background:#111827;
+      border:1px solid #1f2937;
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 18px 42px rgba(0,0,0,.4);
+      margin-top:20px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 10px;
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+      gap:16px;
     }
 
-    .admin-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 18px;
+    .stat,
+    .product,
+    .order,
+    .user,
+    .coupon,
+    .announcement{
+      background:#020617;
+      border:1px solid #1f2937;
+      border-radius:18px;
+      padding:16px;
+      margin-top:14px;
     }
 
-    .tab {
-      display: none;
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:10px;
     }
 
-    .tab.active {
-      display: block;
+    .admin-tabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:18px;
     }
 
-    img.preview {
-      width: 130px;
-      height: 130px;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 1px solid #334155;
-      margin-top: 8px;
+    .tab{
+      display:none;
     }
 
-    .muted {
-      color: #94a3b8;
+    .tab.active{
+      display:block;
     }
 
-    .sale {
-      color: #facc15;
-      font-weight: 900;
+    .muted{
+      color:#94a3b8;
+    }
+
+    .sale{
+      color:#facc15;
+      font-weight:900;
+    }
+
+    .preview{
+      width:150px;
+      height:150px;
+      object-fit:cover;
+      border-radius:16px;
+      border:1px solid #334155;
+      margin-top:10px;
+      background:#020617;
+    }
+
+    .drop-zone{
+      border:2px dashed #334155;
+      background:#020617;
+      border-radius:20px;
+      padding:28px;
+      text-align:center;
+      margin:12px 0;
+      cursor:pointer;
+    }
+
+    .drop-zone.dragover{
+      border-color:#60a5fa;
+      background:#0f172a;
+    }
+
+    .big-note{
+      background:linear-gradient(135deg,#1e3a8a,#312e81);
+      border-radius:24px;
+      padding:22px;
+      margin-top:20px;
+    }
+
+    @media(max-width:800px){
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
     }
   </style>
 </head>
@@ -142,36 +187,60 @@
 <body>
 
 <header>
-  <div class="logo">Apex Owner Portal</div>
+  <div class="logo">
+    Apex Owner Portal
+  </div>
+
   <div>
+    <button onclick="location.href='/'">Home</button>
     <button onclick="location.href='/'">Shop</button>
+    <button onclick="showTab('productsTab')">Products</button>
+    <button onclick="showTab('ordersTab')">Orders</button>
+    <button onclick="showTab('salesTab')">Sales</button>
+    <button onclick="showTab('usersTab')">Users</button>
     <button onclick="loadAdmin()">Refresh</button>
     <button class="danger" onclick="logout()">Logout</button>
   </div>
 </header>
 
 <section class="section">
+
   <div id="loginBox" class="card">
-    <h2>Admin Login</h2>
-    <p class="muted">This page is hidden from customers. Shortcut: /admin</p>
+    <h1>Admin Login</h1>
+
+    <p class="muted">
+      Private owner dashboard. Customers cannot see this page unless they know the exact URL.
+    </p>
+
     <input id="adminPassword" type="password" placeholder="Admin password">
-    <button onclick="login()">Login</button>
+
+    <button onclick="login()">
+      Login
+    </button>
   </div>
 
   <div id="dashboard" class="hidden">
-    <h1>Dashboard</h1>
+
+    <div class="big-note">
+      <h1>Dashboard</h1>
+      <p>
+        Manage products, product pictures, discounts, sales banners,
+        orders, users, inventory, and tracking.
+      </p>
+    </div>
 
     <div class="stats" id="stats"></div>
 
     <div class="admin-tabs">
       <button onclick="showTab('productsTab')">Products</button>
       <button onclick="showTab('ordersTab')">Orders</button>
-      <button onclick="showTab('salesTab')">Coupons/Sales</button>
+      <button onclick="showTab('salesTab')">Coupons / Sales</button>
       <button onclick="showTab('usersTab')">Users</button>
       <button onclick="showTab('shippingTab')">Shipping</button>
     </div>
 
     <div id="productsTab" class="tab active">
+
       <div class="card">
         <h2>Add Product</h2>
 
@@ -192,18 +261,32 @@
           Put product on sale
         </label>
 
-        <h3>Drag / Choose Product Image</h3>
-        <input id="imageUpload" type="file" accept="image/*">
-        <button onclick="uploadProductImage()">Upload Image</button>
+        <h3>Easy Product Picture Upload</h3>
+
+        <div id="dropZone" class="drop-zone">
+          <p><b>Drag image here</b></p>
+          <p class="muted">or choose a file below</p>
+          <input id="imageUpload" type="file" accept="image/*">
+        </div>
+
+        <img id="imagePreview" class="preview hidden">
+
+        <button onclick="uploadProductImage()">
+          Upload Picture
+        </button>
+
         <p id="uploadStatus" class="muted"></p>
 
-        <button onclick="addProduct()">Add Product</button>
+        <button onclick="addProduct()">
+          Add Product To Store
+        </button>
       </div>
 
       <div class="card">
         <h2>Edit Products</h2>
         <div id="products"></div>
       </div>
+
     </div>
 
     <div id="ordersTab" class="tab">
@@ -214,30 +297,46 @@
     </div>
 
     <div id="salesTab" class="tab">
+
       <div class="card">
         <h2>Create Coupon</h2>
+
         <input id="couponCode" placeholder="Coupon code, example APEX20">
         <input id="couponDiscount" placeholder="Discount percent">
-        <button onclick="addCoupon()">Add Coupon</button>
+
+        <button onclick="addCoupon()">
+          Add Coupon
+        </button>
       </div>
 
       <div class="card">
-        <h2>Sales Banner</h2>
+        <h2>Create Sales Banner</h2>
+
         <input id="announcementText" placeholder="Example: Weekend sale 20% off!">
-        <button onclick="addAnnouncement()">Add Banner</button>
+
+        <button onclick="addAnnouncement()">
+          Add Banner
+        </button>
       </div>
 
       <div class="card">
-        <h2>Current Coupons & Banners</h2>
+        <h2>Current Coupons & Sales Banners</h2>
+
         <div id="coupons"></div>
         <div id="announcements"></div>
       </div>
+
     </div>
 
     <div id="usersTab" class="tab">
       <div class="card">
         <h2>Customers</h2>
-        <p class="muted">Passwords are hidden and hashed. Do not share customer information.</p>
+
+        <p class="muted">
+          Passwords are hidden and hashed.
+          Do not share customer information.
+        </p>
+
         <div id="users"></div>
       </div>
     </div>
@@ -245,76 +344,120 @@
     <div id="shippingTab" class="tab">
       <div class="card">
         <h2>Shipping Label Generator</h2>
+
         <p class="muted">
-          This is prepared for a real shipping API like Shippo, EasyPost, USPS, UPS, or FedEx.
+          This needs a real shipping API later like Shippo,
+          EasyPost, USPS, UPS, or FedEx.
         </p>
+
         <input id="shippingOrderId" placeholder="Order ID">
-        <button onclick="createShippingLabel()">Create Label</button>
+
+        <button onclick="createShippingLabel()">
+          Create Label
+        </button>
+
         <p id="shippingStatus" class="muted"></p>
       </div>
     </div>
+
   </div>
 </section>
 
 <script>
-async function login() {
-  const password = document.getElementById("adminPassword").value;
+async function login(){
+  const password = adminPassword.value;
 
-  const res = await fetch("/api/admin/login", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ password })
+  const res = await fetch("/api/admin/login",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      password
+    })
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert(data.error || "Wrong password");
     return;
   }
 
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
+  loginBox.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+
   loadAdmin();
 }
 
-async function logout() {
-  await fetch("/api/admin/logout", { method: "POST" });
+async function logout(){
+  await fetch("/api/admin/logout",{
+    method:"POST"
+  });
+
   location.reload();
 }
 
-function showTab(id) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+function showTab(id){
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab => tab.classList.remove("active"));
+
+  document
+    .getElementById(id)
+    .classList.add("active");
 }
 
-async function loadAdmin() {
+async function loadAdmin(){
   const res = await fetch("/api/admin/analytics");
   const data = await res.json();
 
-  if (data.error) {
+  if(data.error){
     alert("Admin login required.");
     location.reload();
     return;
   }
 
-  document.getElementById("stats").innerHTML = `
-    <div class="stat"><h3>Orders</h3><h2>${data.totalOrders}</h2></div>
-    <div class="stat"><h3>Users</h3><h2>${data.totalUsers}</h2></div>
-    <div class="stat"><h3>Revenue</h3><h2>$${Number(data.revenue).toFixed(2)}</h2></div>
-    <div class="stat"><h3>Visitors</h3><h2>${data.visitors}</h2></div>
-    <div class="stat"><h3>Cart Opens</h3><h2>${data.cartsOpened}</h2></div>
+  stats.innerHTML = `
+    <div class="stat">
+      <h3>Orders</h3>
+      <h2>${data.totalOrders}</h2>
+    </div>
+
+    <div class="stat">
+      <h3>Users</h3>
+      <h2>${data.totalUsers}</h2>
+    </div>
+
+    <div class="stat">
+      <h3>Revenue</h3>
+      <h2>$${Number(data.revenue).toFixed(2)}</h2>
+    </div>
+
+    <div class="stat">
+      <h3>Visitors</h3>
+      <h2>${data.visitors}</h2>
+    </div>
+
+    <div class="stat">
+      <h3>Cart Opens</h3>
+      <h2>${data.cartsOpened}</h2>
+    </div>
   `;
 
-  document.getElementById("products").innerHTML = data.products.map(product => `
+  products.innerHTML = data.products.map(product => `
     <div class="product">
+
       <h3>${product.name}</h3>
+
       ${product.onSale ? `<p class="sale">SALE ${product.discountPercent}% OFF</p>` : ""}
+
       <p>Category: ${product.category}</p>
       <p>Price: $${product.price}</p>
       <p>Final Price: $${Number(product.finalPrice).toFixed(2)}</p>
       <p>Stock: ${product.stock}</p>
       <p>Sold: ${product.sold}</p>
+
       <img class="preview" src="${product.image}">
 
       <div class="grid">
@@ -336,36 +479,65 @@ async function loadAdmin() {
 
       <br><br>
 
-      <button onclick="saveProduct(${product.id})">Save Product</button>
-      <button class="danger" onclick="deleteProduct(${product.id})">Delete Product</button>
+      <button onclick="saveProduct(${product.id})">
+        Save Product
+      </button>
+
+      <button class="danger" onclick="deleteProduct(${product.id})">
+        Delete Product
+      </button>
+
     </div>
   `).join("");
 
-  document.getElementById("orders").innerHTML = data.orders.length
+  orders.innerHTML = data.orders.length
     ? data.orders.map(order => `
       <div class="order">
+
         <h3>${order.id}</h3>
+
         <p><b>${order.name}</b></p>
-        <p>${order.phone} | ${order.email}</p>
-        <p>${order.streetAddress}<br>${order.city}, ${order.state} ${order.zip}</p>
+        <p>${order.phone}</p>
+        <p>${order.email}</p>
+
+        <p>
+          ${order.streetAddress}<br>
+          ${order.city}, ${order.state} ${order.zip}
+        </p>
+
         <p>Total: $${order.total}</p>
         <p>Coupon: ${order.couponCode || "None"}</p>
-        <p>STL Upload: ${order.stlUrl ? `<a href="${order.stlUrl}" target="_blank">Open STL</a>` : "None"}</p>
-        <p>Items: ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}</p>
+
+        <p>
+          STL Upload:
+          ${
+            order.stlUrl
+              ? `<a href="${order.stlUrl}" target="_blank">Open STL</a>`
+              : "None"
+          }
+        </p>
+
+        <p>
+          Items:
+          ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}
+        </p>
 
         <select id="status${order.id}">
-          <option ${order.status==="Processing"?"selected":""}>Processing</option>
-          <option ${order.status==="Printing"?"selected":""}>Printing</option>
-          <option ${order.status==="Shipped"?"selected":""}>Shipped</option>
-          <option ${order.status==="Delivered"?"selected":""}>Delivered</option>
+          <option ${order.status==="Processing" ? "selected" : ""}>Processing</option>
+          <option ${order.status==="Printing" ? "selected" : ""}>Printing</option>
+          <option ${order.status==="Shipped" ? "selected" : ""}>Shipped</option>
+          <option ${order.status==="Delivered" ? "selected" : ""}>Delivered</option>
         </select>
 
-        <button onclick="updateOrder('${order.id}')">Update Status</button>
+        <button onclick="updateOrder('${order.id}')">
+          Update Status
+        </button>
+
       </div>
     `).join("")
     : "<p class='muted'>No orders yet.</p>";
 
-  document.getElementById("users").innerHTML = data.users.length
+  users.innerHTML = data.users.length
     ? data.users.map(user => `
       <div class="user">
         <h3>${user.username}</h3>
@@ -377,72 +549,87 @@ async function loadAdmin() {
     `).join("")
     : "<p class='muted'>No users yet.</p>";
 
-  document.getElementById("coupons").innerHTML = `
+  coupons.innerHTML = `
     <h3>Coupons</h3>
+
     ${data.coupons.map(c => `
       <div class="coupon">
-        <b>${c.code}</b> — ${c.discountPercent}% off — ${c.active ? "Active" : "Inactive"}
+        <b>${c.code}</b>
+        —
+        ${c.discountPercent}% off
+        —
+        ${c.active ? "Active" : "Inactive"}
       </div>
     `).join("")}
   `;
 
-  document.getElementById("announcements").innerHTML = `
+  announcements.innerHTML = `
     <h3>Banners</h3>
+
     ${data.announcements.map(a => `
-      <div class="announcement">${a.text} — ${a.active ? "Active" : "Inactive"}</div>
+      <div class="announcement">
+        ${a.text}
+        —
+        ${a.active ? "Active" : "Inactive"}
+      </div>
     `).join("")}
   `;
 }
 
-async function uploadProductImage() {
-  const file = document.getElementById("imageUpload").files[0];
+async function uploadProductImage(){
+  const file = imageUpload.files[0];
 
-  if (!file) {
-    alert("Choose an image first.");
+  if(!file){
+    alert("Choose or drag an image first.");
     return;
   }
 
   const fd = new FormData();
-  fd.append("image", file);
+  fd.append("image",file);
 
-  const res = await fetch("/api/admin/upload-image", {
-    method: "POST",
-    body: fd
+  const res = await fetch("/api/admin/upload-image",{
+    method:"POST",
+    body:fd
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert("Upload failed.");
     return;
   }
 
-  document.getElementById("newImage").value = data.url;
-  document.getElementById("uploadStatus").innerText = "Uploaded: " + data.url;
+  newImage.value = data.url;
+  uploadStatus.innerText = "Uploaded: " + data.url;
+
+  imagePreview.src = data.url;
+  imagePreview.classList.remove("hidden");
 }
 
-async function addProduct() {
+async function addProduct(){
   const body = {
-    name: document.getElementById("newName").value,
-    category: document.getElementById("newCategory").value,
-    price: document.getElementById("newPrice").value,
-    discountPercent: document.getElementById("newDiscount").value,
-    stock: document.getElementById("newStock").value,
-    image: document.getElementById("newImage").value,
-    model: document.getElementById("newModel").value,
-    description: document.getElementById("newDescription").value,
-    onSale: document.getElementById("newSale").checked
+    name:newName.value,
+    category:newCategory.value,
+    price:newPrice.value,
+    discountPercent:newDiscount.value,
+    stock:newStock.value,
+    image:newImage.value,
+    model:newModel.value,
+    description:newDescription.value,
+    onSale:newSale.checked
   };
 
-  const res = await fetch("/api/admin/products", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(body)
+  const res = await fetch("/api/admin/products",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(body)
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert(data.error || "Failed to add product.");
     return;
   }
@@ -451,28 +638,30 @@ async function addProduct() {
   loadAdmin();
 }
 
-async function saveProduct(id) {
+async function saveProduct(id){
   const body = {
-    name: document.getElementById("name" + id).value,
-    category: document.getElementById("category" + id).value,
-    price: document.getElementById("price" + id).value,
-    discountPercent: document.getElementById("discount" + id).value,
-    stock: document.getElementById("stock" + id).value,
-    image: document.getElementById("image" + id).value,
-    model: document.getElementById("model" + id).value,
-    description: document.getElementById("description" + id).value,
-    onSale: document.getElementById("sale" + id).checked
+    name:document.getElementById("name" + id).value,
+    category:document.getElementById("category" + id).value,
+    price:document.getElementById("price" + id).value,
+    discountPercent:document.getElementById("discount" + id).value,
+    stock:document.getElementById("stock" + id).value,
+    image:document.getElementById("image" + id).value,
+    model:document.getElementById("model" + id).value,
+    description:document.getElementById("description" + id).value,
+    onSale:document.getElementById("sale" + id).checked
   };
 
-  const res = await fetch("/api/admin/products/" + id, {
-    method: "PUT",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(body)
+  const res = await fetch("/api/admin/products/" + id,{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(body)
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert(data.error || "Failed to save product.");
     return;
   }
@@ -481,16 +670,16 @@ async function saveProduct(id) {
   loadAdmin();
 }
 
-async function deleteProduct(id) {
-  if (!confirm("Delete this product?")) return;
+async function deleteProduct(id){
+  if(!confirm("Delete this product?")) return;
 
-  const res = await fetch("/api/admin/products/" + id, {
-    method: "DELETE"
+  const res = await fetch("/api/admin/products/" + id,{
+    method:"DELETE"
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert(data.error || "Failed to delete product.");
     return;
   }
@@ -499,18 +688,23 @@ async function deleteProduct(id) {
   loadAdmin();
 }
 
-async function updateOrder(id) {
+async function updateOrder(id){
   const status = document.getElementById("status" + id).value;
 
-  const res = await fetch("/api/admin/order-status", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ id, status })
+  const res = await fetch("/api/admin/order-status",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      id,
+      status
+    })
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert(data.error || "Failed to update order.");
     return;
   }
@@ -519,19 +713,21 @@ async function updateOrder(id) {
   loadAdmin();
 }
 
-async function addCoupon() {
-  const res = await fetch("/api/admin/coupons", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      code: document.getElementById("couponCode").value,
-      discountPercent: document.getElementById("couponDiscount").value
+async function addCoupon(){
+  const res = await fetch("/api/admin/coupons",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      code:couponCode.value,
+      discountPercent:couponDiscount.value
     })
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert("Failed to add coupon.");
     return;
   }
@@ -540,18 +736,20 @@ async function addCoupon() {
   loadAdmin();
 }
 
-async function addAnnouncement() {
-  const res = await fetch("/api/admin/announcements", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      text: document.getElementById("announcementText").value
+async function addAnnouncement(){
+  const res = await fetch("/api/admin/announcements",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      text:announcementText.value
     })
   });
 
   const data = await res.json();
 
-  if (!data.ok) {
+  if(!data.ok){
     alert("Failed to add banner.");
     return;
   }
@@ -560,17 +758,58 @@ async function addAnnouncement() {
   loadAdmin();
 }
 
-async function createShippingLabel() {
-  const res = await fetch("/api/admin/shipping-label", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      orderId: document.getElementById("shippingOrderId").value
+async function createShippingLabel(){
+  const res = await fetch("/api/admin/shipping-label",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      orderId:shippingOrderId.value
     })
   });
 
   const data = await res.json();
-  document.getElementById("shippingStatus").innerText = data.message || "Shipping label request sent.";
+
+  shippingStatus.innerText =
+    data.message || "Shipping label request sent.";
+}
+
+const dropZone = document.getElementById("dropZone");
+
+if(dropZone && imageUpload){
+  dropZone.addEventListener("dragover",event => {
+    event.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave",() => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop",event => {
+    event.preventDefault();
+
+    dropZone.classList.remove("dragover");
+
+    if(event.dataTransfer.files.length){
+      imageUpload.files = event.dataTransfer.files;
+
+      imagePreview.src =
+        URL.createObjectURL(event.dataTransfer.files[0]);
+
+      imagePreview.classList.remove("hidden");
+    }
+  });
+
+  imageUpload.addEventListener("change",() => {
+    if(imageUpload.files.length){
+      imagePreview.src =
+        URL.createObjectURL(imageUpload.files[0]);
+
+      imagePreview.classList.remove("hidden");
+    }
+  });
 }
 </script>
 
