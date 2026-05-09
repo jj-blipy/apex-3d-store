@@ -1,4 +1,4 @@
-const CACHE_NAME = "apex-3d-creations-v1";
+const CACHE_NAME = "apex-3d-creations-v2";
 
 self.addEventListener("install", event => {
   event.waitUntil(
