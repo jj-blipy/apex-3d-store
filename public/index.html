@@ -3,7 +3,6 @@
 <head>
   <title>Apex 3D Creations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Apex 3D Creations sells custom 3D printed items, figures, parts, gifts, and personalized prints.">
   <link rel="manifest" href="/manifest.json">
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -17,11 +16,92 @@
       color: white;
     }
 
+    .hidden { display: none !important; }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 18px;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+    }
+
+    button.secondary {
+      background: #111827;
+      border: 1px solid #334155;
+    }
+
+    button.danger {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #334155;
+      background: #020617;
+      color: white;
+      padding: 14px;
+      border-radius: 14px;
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .welcome {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.45), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(124,58,237,.35), transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a);
+    }
+
+    .welcome-card {
+      width: 100%;
+      max-width: 980px;
+      background: rgba(17,24,39,.88);
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 35px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 30px;
+    }
+
+    .brand h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      margin: 0;
+      letter-spacing: -2px;
+    }
+
+    .brand p {
+      color: #cbd5e1;
+      font-size: 19px;
+      line-height: 1.6;
+    }
+
+    .auth-card {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(7, 11, 22, 0.92);
+      background: rgba(7,11,22,.92);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid #1f2937;
       padding: 16px 7%;
@@ -35,7 +115,6 @@
     .logo {
       font-size: 24px;
       font-weight: 900;
-      letter-spacing: -0.5px;
     }
 
     .nav {
@@ -45,72 +124,30 @@
       align-items: center;
     }
 
-    button {
-      border: 0;
-      border-radius: 14px;
-      padding: 12px 17px;
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      transition: 0.2s ease;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 28px rgba(0,0,0,0.35);
-    }
-
-    button.secondary {
-      background: #111827;
-      border: 1px solid #334155;
-    }
-
-    button.danger {
-      background: linear-gradient(135deg, #dc2626, #991b1b);
-    }
-
-    button:disabled {
-      background: #374151;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
     .hero {
-      padding: 95px 7%;
+      padding: 80px 7%;
       text-align: center;
       background:
-        radial-gradient(circle at top right, rgba(37,99,235,0.35), transparent 36%),
-        radial-gradient(circle at bottom left, rgba(124,58,237,0.30), transparent 33%),
+        radial-gradient(circle at top right, rgba(37,99,235,.35), transparent 36%),
         linear-gradient(135deg, #0f172a, #111827);
     }
 
-    .hero h1 {
-      font-size: clamp(40px, 7vw, 78px);
+    .hero h2 {
+      font-size: clamp(34px, 6vw, 70px);
       margin: 0;
-      letter-spacing: -2px;
-    }
-
-    .hero p {
-      max-width: 820px;
-      margin: 20px auto;
-      color: #cbd5e1;
-      font-size: 20px;
-      line-height: 1.6;
     }
 
     .section {
       padding: 42px 7%;
     }
 
-    .section-title {
-      font-size: 36px;
-      margin-bottom: 8px;
-    }
+    .muted { color: #94a3b8; }
 
-    .muted {
-      color: #94a3b8;
+    .filters {
+      display: grid;
+      grid-template-columns: 2fr 1fr auto;
+      gap: 12px;
+      margin-top: 20px;
     }
 
     .grid {
@@ -125,8 +162,7 @@
       border: 1px solid #1f2937;
       border-radius: 24px;
       padding: 22px;
-      box-shadow: 0 18px 42px rgba(0,0,0,0.40);
-      animation: rise 0.45s ease;
+      box-shadow: 0 18px 42px rgba(0,0,0,.40);
     }
 
     .card img {
@@ -141,7 +177,6 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      align-items: start;
     }
 
     .price {
@@ -172,20 +207,9 @@
       margin: 5px 0;
     }
 
-    .in-stock {
-      background: rgba(34,197,94,0.14);
-      color: #4ade80;
-    }
-
-    .low-stock {
-      background: rgba(245,158,11,0.14);
-      color: #fbbf24;
-    }
-
-    .sold-out {
-      background: rgba(239,68,68,0.14);
-      color: #f87171;
-    }
+    .in-stock { background: rgba(34,197,94,.14); color: #4ade80; }
+    .low-stock { background: rgba(245,158,11,.14); color: #fbbf24; }
+    .sold-out { background: rgba(239,68,68,.14); color: #f87171; }
 
     model-viewer {
       width: 100%;
@@ -196,35 +220,7 @@
       border: 1px solid #1f2937;
     }
 
-    input, textarea, select {
-      width: 100%;
-      border: 1px solid #334155;
-      background: #020617;
-      color: white;
-      padding: 14px;
-      border-radius: 14px;
-      margin: 8px 0;
-      outline: none;
-      font-size: 15px;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: #60a5fa;
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 2fr 1fr auto;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .checkout-grid, .auth-grid {
+    .checkout-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 10px;
@@ -238,17 +234,6 @@
       margin-top: 12px;
     }
 
-    .auth-tabs {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
     #chat {
       position: fixed;
       right: 20px;
@@ -259,7 +244,7 @@
       border: 1px solid #334155;
       border-radius: 22px;
       padding: 16px;
-      box-shadow: 0 18px 48px rgba(0,0,0,0.55);
+      box-shadow: 0 18px 48px rgba(0,0,0,.55);
       z-index: 200;
     }
 
@@ -268,7 +253,6 @@
       overflow-y: auto;
       color: #cbd5e1;
       font-size: 14px;
-      padding-right: 5px;
     }
 
     footer {
@@ -278,16 +262,9 @@
       border-top: 1px solid #1f2937;
     }
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(22px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 760px) {
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
+    @media (max-width: 800px) {
+      .welcome-card { grid-template-columns: 1fr; }
+      .filters { grid-template-columns: 1fr; }
       #chat {
         position: static;
         width: auto;
@@ -298,74 +275,71 @@
 </head>
 
 <body>
+
+<section id="welcomeScreen" class="welcome">
+  <div class="welcome-card">
+    <div class="brand">
+      <h1>Apex 3D Creations</h1>
+      <p>
+        Custom 3D printed products, figures, parts, gifts, and personalized designs.
+        Sign in, create an account, or enter as a guest to start shopping.
+      </p>
+
+      <button onclick="enterStore()">Enter Store as Guest</button>
+    </div>
+
+    <div class="auth-card">
+      <div id="welcomeStatus" class="muted">Not logged in.</div>
+
+      <div class="auth-tabs">
+        <button onclick="showSignup()">Sign Up</button>
+        <button class="secondary" onclick="showLogin()">Login</button>
+      </div>
+
+      <div id="signupBox">
+        <h2>Create Account</h2>
+        <input id="signupUsername" placeholder="Username">
+        <input id="signupEmail" placeholder="Email">
+        <input id="signupPhone" placeholder="Phone number">
+        <input id="signupPassword" type="password" placeholder="Password">
+        <button onclick="signup()">Sign Up & Enter Store</button>
+      </div>
+
+      <div id="loginBox" class="hidden">
+        <h2>Login</h2>
+        <input id="loginEmailOrUsername" placeholder="Email or username">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <button onclick="login()">Login & Enter Store</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="storeApp" class="hidden">
   <header>
     <div class="logo">Apex 3D Creations</div>
 
     <div class="nav">
+      <span id="userBadge" class="muted">Guest</span>
       <button onclick="scrollToId('shopSection')">Shop</button>
-      <button onclick="scrollToId('accountSection')">Account</button>
       <button onclick="scrollToId('tracking')">Track Order</button>
       <button onclick="showCart()">Cart (<span id="cartCount">0</span>)</button>
+      <button class="danger" onclick="logout()">Logout</button>
     </div>
   </header>
 
   <section class="hero">
-    <h1>Custom 3D Prints Built For You</h1>
-    <p>
-      Shop professional 3D printed products, custom designs, figures, gifts, parts,
-      and personalized prints with account login, order tracking, reviews, and 3D previews.
-    </p>
-    <button onclick="scrollToId('shopSection')">Start Shopping</button>
-  </section>
-
-  <section class="section" id="accountSection">
-    <h2 class="section-title">Customer Account</h2>
-    <p class="muted">Sign up or log in so you can see your purchases and track your orders.</p>
-
-    <div class="card">
-      <div id="accountStatus" class="muted">Checking login...</div>
-
-      <div id="authBox">
-        <div class="auth-tabs">
-          <button onclick="showSignup()">Sign Up</button>
-          <button class="secondary" onclick="showLogin()">Login</button>
-        </div>
-
-        <div id="signupBox">
-          <h3>Create Account</h3>
-          <div class="auth-grid">
-            <input id="signupUsername" placeholder="Username">
-            <input id="signupEmail" placeholder="Email">
-            <input id="signupPhone" placeholder="Phone number">
-            <input id="signupPassword" type="password" placeholder="Password">
-          </div>
-          <button onclick="signup()">Create Account</button>
-        </div>
-
-        <div id="loginBox" class="hidden">
-          <h3>Login</h3>
-          <div class="auth-grid">
-            <input id="loginEmailOrUsername" placeholder="Email or username">
-            <input id="loginPassword" type="password" placeholder="Password">
-          </div>
-          <button onclick="login()">Login</button>
-        </div>
-      </div>
-
-      <div id="loggedInBox" class="hidden">
-        <button onclick="loadCustomerOrders()">My Purchases</button>
-        <button class="danger" onclick="logout()">Logout</button>
-        <div id="customerOrders"></div>
-      </div>
-    </div>
+    <h2>Professional Custom 3D Prints</h2>
+    <p class="muted">Shop products, search items, find sales, checkout with PayPal, and track orders.</p>
+    <button onclick="scrollToId('shopSection')">Shop Now</button>
   </section>
 
   <section class="section" id="shopSection">
-    <h2 class="section-title">Shop Products</h2>
-    <p class="muted">Search products, filter categories, find sales, and add items to cart.</p>
+    <h2>Shop Products</h2>
+    <p class="muted">Search products, filter categories, and find discounts.</p>
 
     <div class="filters">
-      <input id="searchInput" placeholder="Search products, custom prints, dragons, gifts..." oninput="searchProducts()">
+      <input id="searchInput" placeholder="Search products..." oninput="searchProducts()">
       <select id="categoryFilter" onchange="searchProducts()">
         <option value="">All Categories</option>
         <option value="Custom">Custom</option>
@@ -384,9 +358,7 @@
   <section class="section">
     <div class="card">
       <h2>Checkout</h2>
-      <p class="muted">
-        Street address, house number, and apartment go on one line. Payment goes through PayPal.
-      </p>
+      <p class="muted">Street address, house number, and apartment go on one line.</p>
 
       <div class="cart-box" id="cartPreview">Your cart is empty.</div>
 
@@ -405,8 +377,7 @@
       <button onclick="placeOrder()">Place Order & Pay With PayPal</button>
 
       <p class="muted">
-        Privacy: your address is only used for your order. This site does not store card numbers.
-        Payment is handled by PayPal.
+        Privacy: customer info is only used for orders. This site does not store card numbers.
       </p>
     </div>
   </section>
@@ -414,7 +385,6 @@
   <section class="section" id="tracking">
     <div class="card">
       <h2>Track Your Order</h2>
-      <p class="muted">Enter the same phone number used at checkout.</p>
       <input id="trackPhone" placeholder="Phone number">
       <button onclick="loadOrders()">Track Order</button>
       <div id="ordersBox"></div>
@@ -424,454 +394,302 @@
   <div id="chat">
     <b>AI Shop Assistant</b>
     <div id="chatMessages">
-      <p><b>Bot:</b> Ask about products, checkout, sales, PayPal, tracking, or custom 3D prints.</p>
+      <p><b>Bot:</b> Ask about products, sales, PayPal, tracking, or custom 3D prints.</p>
     </div>
     <input id="chatInput" placeholder="Ask something...">
     <button onclick="askBot()">Send</button>
   </div>
 
-  <footer>
-    Apex 3D Creations © 2026
-  </footer>
+  <footer>Apex 3D Creations © 2026</footer>
+</div>
 
-  <script>
-    let products = [];
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let currentUser = null;
+<script>
+let products = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let currentUser = null;
 
-    fetch("/api/visit", { method: "POST" }).catch(() => {});
+fetch("/api/visit", { method: "POST" }).catch(() => {});
 
-    function money(num) {
-      return Number(num).toFixed(2);
+function money(num) {
+  return Number(num).toFixed(2);
+}
+
+function enterStore() {
+  document.getElementById("welcomeScreen").classList.add("hidden");
+  document.getElementById("storeApp").classList.remove("hidden");
+  updateCart();
+  loadProducts();
+}
+
+function scrollToId(id) {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+
+function showSignup() {
+  document.getElementById("signupBox").classList.remove("hidden");
+  document.getElementById("loginBox").classList.add("hidden");
+}
+
+function showLogin() {
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("signupBox").classList.add("hidden");
+}
+
+async function checkMe() {
+  const res = await fetch("/api/auth/me");
+  const data = await res.json();
+
+  if (data.loggedIn) {
+    currentUser = data.user;
+    document.getElementById("welcomeStatus").innerHTML = "Logged in as <b>" + data.user.username + "</b>";
+    document.getElementById("userBadge").innerText = data.user.username;
+
+    document.getElementById("customerEmail").value = data.user.email || "";
+    document.getElementById("customerPhone").value = data.user.phone || "";
+  }
+}
+
+async function signup() {
+  const username = document.getElementById("signupUsername").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const phone = document.getElementById("signupPhone").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  const res = await fetch("/api/auth/signup", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ username, email, phone, password })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) return alert(data.error || "Signup failed.");
+
+  currentUser = data.user;
+  enterStore();
+  checkMe();
+}
+
+async function login() {
+  const emailOrUsername = document.getElementById("loginEmailOrUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ emailOrUsername, password })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) return alert(data.error || "Login failed.");
+
+  currentUser = data.user;
+  enterStore();
+  checkMe();
+}
+
+async function logout() {
+  await fetch("/api/auth/logout", { method: "POST" });
+  currentUser = null;
+  localStorage.removeItem("cart");
+  location.reload();
+}
+
+async function loadProducts() {
+  const res = await fetch("/api/products");
+  products = await res.json();
+  renderProducts(products);
+}
+
+async function searchProducts() {
+  const q = document.getElementById("searchInput").value.trim();
+  const category = document.getElementById("categoryFilter").value;
+
+  const res = await fetch("/api/products/search?q=" + encodeURIComponent(q) + "&category=" + encodeURIComponent(category));
+  products = await res.json();
+  renderProducts(products);
+}
+
+function renderProducts(list) {
+  const box = document.getElementById("products");
+
+  if (!list.length) {
+    box.innerHTML = "<p class='muted'>No products found.</p>";
+    return;
+  }
+
+  box.innerHTML = "";
+
+  list.forEach(product => {
+    let stockClass = "in-stock";
+    let stockText = "In stock: " + product.stock;
+
+    if (product.stock <= 3 && product.stock > 0) {
+      stockClass = "low-stock";
+      stockText = "Low stock: " + product.stock;
     }
 
-    function scrollToId(id) {
-      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    if (product.stock <= 0) {
+      stockClass = "sold-out";
+      stockText = "Sold out";
     }
 
-    function showSignup() {
-      document.getElementById("signupBox").classList.remove("hidden");
-      document.getElementById("loginBox").classList.add("hidden");
-    }
+    const saleHtml = product.onSale
+      ? `<div class="sale">SALE ${product.discountPercent}% OFF</div>
+         <div class="old-price">$${money(product.price)}</div>
+         <div class="price">$${money(product.finalPrice)}</div>`
+      : `<div class="price">$${money(product.price)}</div>`;
 
-    function showLogin() {
-      document.getElementById("loginBox").classList.remove("hidden");
-      document.getElementById("signupBox").classList.add("hidden");
-    }
-
-    async function checkMe() {
-      const res = await fetch("/api/auth/me");
-      const data = await res.json();
-
-      if (data.loggedIn) {
-        currentUser = data.user;
-        document.getElementById("accountStatus").innerHTML = "Logged in as <b>" + data.user.username + "</b>";
-        document.getElementById("authBox").classList.add("hidden");
-        document.getElementById("loggedInBox").classList.remove("hidden");
-
-        document.getElementById("customerEmail").value = data.user.email || "";
-        document.getElementById("customerPhone").value = data.user.phone || "";
-      } else {
-        currentUser = null;
-        document.getElementById("accountStatus").innerText = "Not logged in.";
-        document.getElementById("authBox").classList.remove("hidden");
-        document.getElementById("loggedInBox").classList.add("hidden");
-      }
-    }
-
-    async function signup() {
-      const username = document.getElementById("signupUsername").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const phone = document.getElementById("signupPhone").value.trim();
-      const password = document.getElementById("signupPassword").value;
-
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, phone, password })
-      });
-
-      const data = await res.json();
-
-      if (!data.ok) {
-        alert(data.error || "Signup failed.");
-        return;
-      }
-
-      alert("Account created.");
-      checkMe();
-    }
-
-    async function login() {
-      const emailOrUsername = document.getElementById("loginEmailOrUsername").value.trim();
-      const password = document.getElementById("loginPassword").value;
-
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailOrUsername, password })
-      });
-
-      const data = await res.json();
-
-      if (!data.ok) {
-        alert(data.error || "Login failed.");
-        return;
-      }
-
-      alert("Logged in.");
-      checkMe();
-    }
-
-    async function logout() {
-      await fetch("/api/auth/logout", { method: "POST" });
-      alert("Logged out.");
-      checkMe();
-    }
-
-    async function loadCustomerOrders() {
-      const res = await fetch("/api/customer/orders");
-      const orders = await res.json();
-
-      const box = document.getElementById("customerOrders");
-
-      if (!Array.isArray(orders) || !orders.length) {
-        box.innerHTML = "<p class='muted'>No purchases yet.</p>";
-        return;
-      }
-
-      box.innerHTML = orders.map(order => `
-        <div class="order-card">
-          <h3>${order.id}</h3>
-          <p>Status: <b>${order.status}</b></p>
-          <p>Total: $${order.total}</p>
-          <p>Items: ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}</p>
-          <p class="muted">${order.date}</p>
-        </div>
-      `).join("");
-    }
-
-    async function loadProducts() {
-      const res = await fetch("/api/products");
-      products = await res.json();
-      renderProducts(products);
-    }
-
-    async function searchProducts() {
-      const q = document.getElementById("searchInput").value.trim();
-      const category = document.getElementById("categoryFilter").value;
-
-      const url = "/api/products/search?q=" + encodeURIComponent(q) + "&category=" + encodeURIComponent(category);
-      const res = await fetch(url);
-      const data = await res.json();
-
-      products = data;
-      renderProducts(products);
-    }
-
-    function renderProducts(list) {
-      const box = document.getElementById("products");
-
-      if (!list.length) {
-        box.innerHTML = "<p class='muted'>No products found.</p>";
-        updateCart();
-        return;
-      }
-
-      box.innerHTML = "";
-
-      list.forEach(product => {
-        const average = product.reviews.length
-          ? (product.reviews.reduce((sum, r) => sum + Number(r.rating), 0) / product.reviews.length).toFixed(1)
-          : "No reviews yet";
-
-        let stockClass = "in-stock";
-        let stockText = "In stock: " + product.stock;
-
-        if (product.stock <= 3 && product.stock > 0) {
-          stockClass = "low-stock";
-          stockText = "Low stock: " + product.stock;
-        }
-
-        if (product.stock <= 0) {
-          stockClass = "sold-out";
-          stockText = "Sold out";
-        }
-
-        const saleHtml = product.onSale
-          ? `<div class="sale">SALE ${product.discountPercent}% OFF</div>
-             <div class="old-price">$${money(product.price)}</div>
-             <div class="price">$${money(product.finalPrice)}</div>`
-          : `<div class="price">$${money(product.price)}</div>`;
-
-        box.innerHTML += `
-          <div class="card">
-            <img src="${product.image}" alt="${product.name}">
-
-            <div class="product-top">
-              <div>
-                <h2>${product.name}</h2>
-                <p class="muted">${product.category}</p>
-              </div>
-              <div>${saleHtml}</div>
-            </div>
-
-            <p class="muted">${product.description}</p>
-            <span class="pill ${stockClass}">${stockText}</span>
-            <p>⭐ ${average}</p>
-
-            <model-viewer src="${product.model}" camera-controls auto-rotate></model-viewer>
-
-            <button ${product.stock <= 0 ? "disabled" : ""} onclick="addToCart(${product.id})">
-              Add to Cart
-            </button>
-
-            <div class="reviews">
-              <h3>Reviews</h3>
-
-              <input id="reviewName${product.id}" placeholder="Your name">
-              <select id="reviewRating${product.id}">
-                <option value="5">5 stars</option>
-                <option value="4">4 stars</option>
-                <option value="3">3 stars</option>
-                <option value="2">2 stars</option>
-                <option value="1">1 star</option>
-              </select>
-              <textarea id="reviewText${product.id}" placeholder="Write a review"></textarea>
-              <button onclick="addReview(${product.id})">Post Review</button>
-
-              ${
-                product.reviews.length
-                  ? product.reviews.map(r => `
-                    <div class="review">
-                      <b>⭐${r.rating} ${r.name}</b>
-                      <p>${r.text}</p>
-                    </div>
-                  `).join("")
-                  : `<p class="muted">No reviews yet.</p>`
-              }
-            </div>
+    box.innerHTML += `
+      <div class="card">
+        <img src="${product.image}">
+        <div class="product-top">
+          <div>
+            <h2>${product.name}</h2>
+            <p class="muted">${product.category}</p>
           </div>
-        `;
-      });
-
-      updateCart();
-    }
-
-    function addToCart(id) {
-      const product = products.find(p => p.id === id);
-      if (!product) return;
-
-      const existing = cart.find(item => item.id === id);
-
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({
-          id: product.id,
-          name: product.name,
-          price: product.finalPrice || product.price,
-          qty: 1
-        });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCart();
-      alert(product.name + " added to cart.");
-    }
-
-    function updateCart() {
-      document.getElementById("cartCount").innerText = cart.reduce((sum, item) => sum + Number(item.qty), 0);
-
-      const preview = document.getElementById("cartPreview");
-
-      if (!cart.length) {
-        preview.innerHTML = "Your cart is empty.";
-        return;
-      }
-
-      const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
-
-      preview.innerHTML = `
-        <h3>Your Cart</h3>
-        ${cart.map(item => `
-          <p>
-            ${item.name} x ${item.qty} — $${money(Number(item.price) * Number(item.qty))}
-            <button class="secondary" onclick="removeFromCart(${item.id})">Remove</button>
-          </p>
-        `).join("")}
-        <h3>Total: $${money(total)}</h3>
-      `;
-    }
-
-    function removeFromCart(id) {
-      cart = cart.filter(item => item.id !== id);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCart();
-    }
-
-    function showCart() {
-      fetch("/api/cart-opened", { method: "POST" }).catch(() => {});
-
-      if (!cart.length) {
-        alert("Your cart is empty.");
-        return;
-      }
-
-      const total = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
-
-      alert(
-        cart.map(item => `${item.name} x ${item.qty}`).join("\n") +
-        "\n\nTotal: $" + money(total)
-      );
-    }
-
-    async function placeOrder() {
-      const name = document.getElementById("customerName").value.trim();
-      const phone = document.getElementById("customerPhone").value.trim();
-      const email = document.getElementById("customerEmail").value.trim();
-      const streetAddress = document.getElementById("streetAddress").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const state = document.getElementById("state").value.trim();
-      const zip = document.getElementById("zip").value.trim();
-      const notes = document.getElementById("orderNotes").value.trim();
-
-      if (!name || !phone || !email || !streetAddress || !city || !state || !zip) {
-        alert("Please fill out name, phone, email, street address, city, state, and ZIP code.");
-        return;
-      }
-
-      if (!cart.length) {
-        alert("Your cart is empty.");
-        return;
-      }
-
-      const res = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          streetAddress,
-          city,
-          state,
-          zip,
-          notes,
-          cart
-        })
-      });
-
-      const data = await res.json();
-
-      if (!data.ok) {
-        alert(data.error || "Checkout failed.");
-        return;
-      }
-
-      localStorage.removeItem("cart");
-      cart = [];
-      updateCart();
-
-      alert("Order saved! Your order number is " + data.orderId + ". Now going to PayPal.");
-      window.location.href = data.paypal;
-    }
-
-    async function loadOrders() {
-      const phone = document.getElementById("trackPhone").value.trim();
-
-      if (!phone) {
-        alert("Enter your phone number.");
-        return;
-      }
-
-      const res = await fetch("/api/orders/" + encodeURIComponent(phone));
-      const orders = await res.json();
-
-      const box = document.getElementById("ordersBox");
-
-      if (!orders.length) {
-        box.innerHTML = "<p class='muted'>No orders found for that phone number.</p>";
-        return;
-      }
-
-      box.innerHTML = orders.map(order => `
-        <div class="order-card">
-          <h3>${order.id}</h3>
-          <p>Status: <b>${order.status}</b></p>
-          <p>Total: $${order.total}</p>
-          <p>Items: ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}</p>
-          <p class="muted">${order.city}, ${order.state}</p>
-          <p class="muted">${order.date}</p>
+          <div>${saleHtml}</div>
         </div>
-      `).join("");
-    }
 
-    async function addReview(productId) {
-      const name = document.getElementById("reviewName" + productId).value.trim();
-      const rating = document.getElementById("reviewRating" + productId).value;
-      const text = document.getElementById("reviewText" + productId).value.trim();
+        <p class="muted">${product.description}</p>
+        <span class="pill ${stockClass}">${stockText}</span>
 
-      if (!text) {
-        alert("Write a review first.");
-        return;
-      }
+        <model-viewer src="${product.model}" camera-controls auto-rotate></model-viewer>
 
-      await fetch("/api/review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId, name, rating, text })
-      });
+        <button ${product.stock <= 0 ? "disabled" : ""} onclick="addToCart(${product.id})">
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
 
-      alert("Review posted.");
-      loadProducts();
-    }
+  updateCart();
+}
 
-    function askBot() {
-      const inputBox = document.getElementById("chatInput");
-      const input = inputBox.value.trim();
-      const lower = input.toLowerCase();
-      const chat = document.getElementById("chatMessages");
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  const existing = cart.find(i => i.id === id);
 
-      if (!input) return;
+  if (existing) existing.qty++;
+  else cart.push({
+    id: product.id,
+    name: product.name,
+    price: product.finalPrice || product.price,
+    qty: 1
+  });
 
-      let answer = "I can help with products, sales, custom prints, checkout, PayPal, order tracking, and 3D models.";
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+  alert(product.name + " added to cart.");
+}
 
-      if (lower.includes("sale") || lower.includes("discount")) {
-        answer = "Sale prices show on product cards when a product has a discount.";
-      }
+function updateCart() {
+  document.getElementById("cartCount").innerText = cart.reduce((s, i) => s + Number(i.qty), 0);
 
-      if (lower.includes("order") || lower.includes("track")) {
-        answer = "Use Track Your Order and enter the phone number used at checkout.";
-      }
+  const preview = document.getElementById("cartPreview");
+  if (!preview) return;
 
-      if (lower.includes("custom")) {
-        answer = "Pick Custom 3D Print Request and describe your idea, size, color, and details in checkout notes.";
-      }
+  if (!cart.length) {
+    preview.innerHTML = "Your cart is empty.";
+    return;
+  }
 
-      if (lower.includes("paypal") || lower.includes("pay")) {
-        answer = "After checkout, the site sends you to PayPal to finish payment.";
-      }
+  const total = cart.reduce((s, i) => s + Number(i.price) * Number(i.qty), 0);
 
-      if (lower.includes("shipping")) {
-        answer = "Order statuses are Processing, Printing, Shipped, and Delivered.";
-      }
+  preview.innerHTML = `
+    <h3>Your Cart</h3>
+    ${cart.map(i => `<p>${i.name} x ${i.qty} — $${money(i.price * i.qty)}</p>`).join("")}
+    <h3>Total: $${money(total)}</h3>
+  `;
+}
 
-      if (lower.includes("3d") || lower.includes("model")) {
-        answer = "The 3D viewer lets you rotate and zoom supported product models.";
-      }
+function showCart() {
+  if (!cart.length) return alert("Your cart is empty.");
 
-      chat.innerHTML += `<p><b>You:</b> ${input}</p><p><b>Bot:</b> ${answer}</p>`;
-      inputBox.value = "";
-      chat.scrollTop = chat.scrollHeight;
-    }
+  const total = cart.reduce((s, i) => s + Number(i.price) * Number(i.qty), 0);
+  alert(cart.map(i => `${i.name} x ${i.qty}`).join("\n") + "\n\nTotal: $" + money(total));
+}
 
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js").catch(() => {});
-    }
+async function placeOrder() {
+  const body = {
+    name: document.getElementById("customerName").value.trim(),
+    phone: document.getElementById("customerPhone").value.trim(),
+    email: document.getElementById("customerEmail").value.trim(),
+    streetAddress: document.getElementById("streetAddress").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    state: document.getElementById("state").value.trim(),
+    zip: document.getElementById("zip").value.trim(),
+    notes: document.getElementById("orderNotes").value.trim(),
+    cart
+  };
 
-    checkMe();
-    loadProducts();
-  </script>
+  if (!body.name || !body.phone || !body.email || !body.streetAddress || !body.city || !body.state || !body.zip) {
+    return alert("Fill out all checkout fields.");
+  }
+
+  if (!cart.length) return alert("Your cart is empty.");
+
+  const res = await fetch("/api/order", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) return alert(data.error || "Checkout failed.");
+
+  localStorage.removeItem("cart");
+  cart = [];
+
+  alert("Order saved! Your order number is " + data.orderId + ". Going to PayPal.");
+  window.location.href = data.paypal;
+}
+
+async function loadOrders() {
+  const phone = document.getElementById("trackPhone").value.trim();
+  if (!phone) return alert("Enter your phone number.");
+
+  const res = await fetch("/api/orders/" + encodeURIComponent(phone));
+  const orders = await res.json();
+
+  document.getElementById("ordersBox").innerHTML = orders.length
+    ? orders.map(o => `
+      <div class="order-card">
+        <h3>${o.id}</h3>
+        <p>Status: <b>${o.status}</b></p>
+        <p>Total: $${o.total}</p>
+        <p>${o.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}</p>
+      </div>
+    `).join("")
+    : "<p class='muted'>No orders found.</p>";
+}
+
+function askBot() {
+  const input = document.getElementById("chatInput").value.trim();
+  const lower = input.toLowerCase();
+  const chat = document.getElementById("chatMessages");
+
+  if (!input) return;
+
+  let answer = "I can help with products, custom prints, sales, checkout, PayPal, and order tracking.";
+
+  if (lower.includes("sale")) answer = "Sale items show a discount on the product card.";
+  if (lower.includes("order")) answer = "Use Track Order and enter the phone number from checkout.";
+  if (lower.includes("custom")) answer = "Use Custom 3D Print Request and explain your idea in order notes.";
+  if (lower.includes("paypal")) answer = "Checkout sends you to PayPal to finish payment.";
+
+  chat.innerHTML += `<p><b>You:</b> ${input}</p><p><b>Bot:</b> ${answer}</p>`;
+  document.getElementById("chatInput").value = "";
+}
+
+checkMe();
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+}
+</script>
+
 </body>
 </html>
