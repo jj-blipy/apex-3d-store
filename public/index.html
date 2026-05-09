@@ -1,133 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Apex 3D Creations</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="manifest" href="/manifest.json">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <title>Apex 3D Creations</title>
 
   <style>
     *{
+      margin:0;
+      padding:0;
       box-sizing:border-box;
     }
 
     body{
-      margin:0;
       font-family:Arial,Helvetica,sans-serif;
       background:#070b16;
       color:white;
     }
 
-    .hidden{
-      display:none !important;
+    a{
+      text-decoration:none;
     }
 
     button{
-      border:0;
+      cursor:pointer;
+      border:none;
       border-radius:14px;
       padding:12px 18px;
-      color:white;
-      font-weight:800;
-      cursor:pointer;
-      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      font-weight:700;
       transition:.2s;
     }
 
     button:hover{
       transform:translateY(-2px);
-      box-shadow:0 12px 28px rgba(0,0,0,.4);
     }
 
-    button.secondary{
-      background:#111827;
-      border:1px solid #334155;
-    }
-
-    button.danger{
-      background:linear-gradient(135deg,#dc2626,#991b1b);
-    }
-
-    input,textarea,select{
-      width:100%;
-      border:1px solid #334155;
-      background:#020617;
+    .primary-btn{
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
       color:white;
-      padding:14px;
-      border-radius:14px;
-      margin:8px 0;
     }
 
-    textarea{
-      min-height:90px;
-      resize:vertical;
-    }
-
-    .welcome{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:30px;
-      background:
-      radial-gradient(circle at top right,rgba(37,99,235,.45),transparent 35%),
-      radial-gradient(circle at bottom left,rgba(124,58,237,.35),transparent 30%),
-      linear-gradient(135deg,#020617,#0f172a);
-    }
-
-    .welcome-card{
-      width:100%;
-      max-width:1050px;
-      background:rgba(17,24,39,.88);
+    .secondary-btn{
+      background:#111827;
+      color:white;
       border:1px solid #334155;
-      border-radius:30px;
-      padding:35px;
-      box-shadow:0 30px 80px rgba(0,0,0,.55);
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:30px;
-    }
-
-    .brand h1{
-      font-size:72px;
-      margin:0;
-    }
-
-    .brand p{
-      color:#cbd5e1;
-      font-size:19px;
-      line-height:1.6;
-    }
-
-    .auth-card{
-      background:#020617;
-      border:1px solid #1f2937;
-      border-radius:24px;
-      padding:24px;
-    }
-
-    .auth-tabs{
-      display:flex;
-      gap:10px;
-      margin-bottom:12px;
     }
 
     header{
       position:sticky;
       top:0;
       z-index:100;
+      padding:18px 7%;
       background:rgba(7,11,22,.92);
       backdrop-filter:blur(18px);
       border-bottom:1px solid #1f2937;
-      padding:16px 7%;
+
       display:flex;
       justify-content:space-between;
       align-items:center;
       flex-wrap:wrap;
-      gap:10px;
+      gap:15px;
     }
 
     .logo{
-      font-size:24px;
+      font-size:28px;
       font-weight:900;
     }
 
@@ -135,191 +72,164 @@
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      align-items:center;
     }
 
     .hero{
-      padding:80px 7%;
+      padding:100px 7%;
       text-align:center;
+
       background:
-      radial-gradient(circle at top right,rgba(37,99,235,.35),transparent 36%),
-      linear-gradient(135deg,#0f172a,#111827);
+      radial-gradient(circle at top right,rgba(37,99,235,.35),transparent 35%),
+      radial-gradient(circle at bottom left,rgba(124,58,237,.28),transparent 30%),
+      linear-gradient(135deg,#020617,#111827);
     }
 
-    .hero h2{
+    .hero h1{
       font-size:70px;
-      margin:0;
+      margin-bottom:20px;
+    }
+
+    .hero p{
+      color:#cbd5e1;
+      font-size:20px;
+      max-width:850px;
+      margin:auto;
+      line-height:1.7;
+    }
+
+    .hero-buttons{
+      margin-top:35px;
+
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
     }
 
     .section{
-      padding:42px 7%;
+      padding:60px 7%;
     }
 
-    .muted{
-      color:#94a3b8;
+    .section-title{
+      font-size:40px;
+      margin-bottom:30px;
     }
 
-    .layout{
+    .products{
       display:grid;
-      grid-template-columns:240px 1fr;
-      gap:22px;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:25px;
     }
 
-    .sidebar,
-    .card{
+    .product-card{
       background:#111827;
       border:1px solid #1f2937;
       border-radius:24px;
-      padding:22px;
+      overflow:hidden;
+      transition:.25s;
+    }
+
+    .product-card:hover{
+      transform:translateY(-5px);
       box-shadow:0 18px 42px rgba(0,0,0,.4);
     }
 
-    .sidebar button{
+    .product-card img{
       width:100%;
-      margin:6px 0;
-      text-align:left;
-    }
-
-    .filters{
-      display:grid;
-      grid-template-columns:2fr 1fr auto;
-      gap:12px;
-      margin-top:20px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
-      gap:24px;
-      margin-top:24px;
-    }
-
-    .card img{
-      width:100%;
-      height:220px;
+      height:240px;
       object-fit:cover;
-      border-radius:20px;
     }
 
-    .product-top{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
+    .product-content{
+      padding:20px;
+    }
+
+    .product-title{
+      font-size:24px;
+      margin-bottom:10px;
+    }
+
+    .product-description{
+      color:#cbd5e1;
+      line-height:1.6;
+      margin-bottom:18px;
     }
 
     .price{
-      font-size:25px;
+      font-size:28px;
       font-weight:900;
       color:#93c5fd;
-      text-align:right;
+      margin-bottom:18px;
     }
 
-    .old-price{
-      color:#94a3b8;
-      text-decoration:line-through;
-      font-size:15px;
-    }
-
-    .sale{
-      color:#facc15;
-      font-weight:900;
-    }
-
-    .pill{
-      display:inline-block;
-      padding:7px 11px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:800;
-      margin:5px 0;
-    }
-
-    .in-stock{
-      background:rgba(34,197,94,.14);
-      color:#4ade80;
-    }
-
-    .low-stock{
-      background:rgba(245,158,11,.14);
-      color:#fbbf24;
-    }
-
-    .sold-out{
-      background:rgba(239,68,68,.14);
-      color:#f87171;
-    }
-
-    model-viewer{
-      width:100%;
-      height:280px;
-      border-radius:20px;
-      background:#020617;
-      margin:14px 0;
-      border:1px solid #1f2937;
-    }
-
-    .screen{
-      display:none;
-    }
-
-    .screen.active{
-      display:block;
-    }
-
-    .cart-box,
-    .order-card{
-      background:#020617;
-      border:1px solid #1f2937;
-      border-radius:18px;
-      padding:16px;
-      margin-top:12px;
-    }
-
-    .checkout-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    .product-buttons{
+      display:flex;
       gap:10px;
+      flex-wrap:wrap;
     }
 
-    .banner{
-      padding:12px 7%;
-      background:linear-gradient(135deg,#facc15,#f97316);
-      color:#111827;
-      font-weight:900;
-      text-align:center;
+    .features{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
     }
 
-    #chatLauncher{
+    .feature{
+      background:#111827;
+      border:1px solid #1f2937;
+      border-radius:22px;
+      padding:25px;
+    }
+
+    .feature h3{
+      margin-bottom:12px;
+      font-size:24px;
+    }
+
+    .feature p{
+      color:#cbd5e1;
+      line-height:1.7;
+    }
+
+    #chatButton{
       position:fixed;
-      right:20px;
       bottom:20px;
-      z-index:200;
+      right:20px;
+      z-index:300;
       border-radius:999px;
     }
 
-    #chat{
+    #chatBox{
       position:fixed;
-      right:20px;
       bottom:20px;
-      width:330px;
+      right:20px;
+      width:340px;
+      max-width:calc(100vw - 30px);
+
       background:#111827;
       border:1px solid #334155;
       border-radius:22px;
-      padding:16px;
+
+      padding:18px;
+      z-index:301;
+
       box-shadow:0 18px 48px rgba(0,0,0,.55);
-      z-index:201;
     }
 
-    .chat-head{
+    .hidden{
+      display:none !important;
+    }
+
+    .chat-top{
       display:flex;
       justify-content:space-between;
       align-items:center;
+      margin-bottom:15px;
     }
 
     .chat-x{
-      width:36px;
-      height:36px;
-      padding:0;
+      width:38px;
+      height:38px;
       border-radius:999px;
       background:#dc2626;
       color:white;
@@ -328,289 +238,474 @@
     }
 
     #chatMessages{
-      height:145px;
+      height:160px;
       overflow-y:auto;
       color:#cbd5e1;
-      font-size:14px;
+      margin-bottom:12px;
+      line-height:1.6;
+    }
+
+    #chatInput{
+      width:100%;
+      border:1px solid #334155;
+      background:#020617;
+      color:white;
+      padding:14px;
+      border-radius:14px;
+      margin-bottom:10px;
     }
 
     footer{
-      padding:35px 7%;
-      text-align:center;
-      color:#94a3b8;
+      padding:50px 7%;
+      background:#020617;
       border-top:1px solid #1f2937;
+      margin-top:60px;
+      text-align:center;
     }
 
-    @media(max-width:850px){
-      .welcome-card,
-      .layout{
-        grid-template-columns:1fr;
+    footer h2{
+      font-size:36px;
+      margin-bottom:18px;
+    }
+
+    footer p{
+      color:#cbd5e1;
+      line-height:1.7;
+      margin-top:10px;
+    }
+
+    .footer-buttons{
+      margin-top:30px;
+
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .footer-btn{
+      padding:14px 22px;
+      border-radius:16px;
+      font-weight:800;
+    }
+
+    .contact-btn{
+      background:#111827;
+      border:1px solid #334155;
+      color:#93c5fd;
+    }
+
+    .paypal-btn{
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      color:white;
+    }
+
+    .footer-tags{
+      margin-top:35px;
+
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .tag{
+      background:#111827;
+      border:1px solid #334155;
+      padding:10px 16px;
+      border-radius:999px;
+      color:#cbd5e1;
+    }
+
+    .copyright{
+      color:#64748b;
+      margin-top:40px;
+      font-size:14px;
+    }
+
+    @media(max-width:800px){
+
+      .hero h1{
+        font-size:48px;
       }
 
-      .filters{
-        grid-template-columns:1fr;
+      .section-title{
+        font-size:32px;
       }
+
     }
   </style>
 </head>
 
 <body>
 
-<section id="welcomeScreen" class="welcome">
-  <div class="welcome-card">
+<header>
 
-    <div class="brand">
-      <h1>Apex 3D Creations</h1>
-
-      <p>
-        Professional custom 3D printed products,
-        figures, parts, decor, gifts, and STL prints.
-      </p>
-
-      <button onclick="enterStore()">
-        Enter Store as Guest
-      </button>
-    </div>
-
-    <div class="auth-card">
-
-      <div id="welcomeStatus" class="muted">
-        Not logged in.
-      </div>
-
-      <div class="auth-tabs">
-        <button onclick="showSignup()">Sign Up</button>
-        <button class="secondary" onclick="showLogin()">Login</button>
-      </div>
-
-      <div id="signupBox">
-        <h2>Create Account</h2>
-
-        <input id="signupUsername" placeholder="Username">
-        <input id="signupEmail" placeholder="Email">
-        <input id="signupPhone" placeholder="Phone number">
-        <input id="signupPassword" type="password" placeholder="Password">
-
-        <button onclick="signup()">
-          Sign Up & Enter Store
-        </button>
-      </div>
-
-      <div id="loginBox" class="hidden">
-        <h2>Login</h2>
-
-        <input id="loginEmailOrUsername" placeholder="Email or username">
-        <input id="loginPassword" type="password" placeholder="Password">
-
-        <button onclick="login()">
-          Login & Enter Store
-        </button>
-      </div>
-
-    </div>
+  <div class="logo">
+    Apex 3D Creations
   </div>
-</section>
 
-<div id="storeApp" class="hidden">
+  <div class="nav">
 
-  <div id="saleBanner" class="banner hidden"></div>
+    <button class="secondary-btn">
+      Home
+    </button>
 
-  <header>
-    <div class="logo">
-      Apex 3D Creations
-    </div>
+    <button class="secondary-btn">
+      Shop
+    </button>
 
-    <div class="nav">
-      <span id="userBadge" class="muted">Guest</span>
+    <button class="secondary-btn">
+      Cart
+    </button>
 
-      <button onclick="showScreen('home')">Home</button>
-      <button onclick="showScreen('shop')">Shop</button>
-      <button onclick="showScreen('cart')">
-        Cart (<span id="cartCount">0</span>)
-      </button>
+    <button class="secondary-btn">
+      Wishlist
+    </button>
 
-      <button onclick="showScreen('wishlist')">
-        Wishlist
-      </button>
+    <button class="secondary-btn">
+      Orders
+    </button>
 
-      <button onclick="showScreen('orders')">
-        Orders
-      </button>
-
-      <button onclick="showScreen('account')">
-        Account
-      </button>
-
-      <button class="danger" onclick="logout()">
-        Logout
-      </button>
-    </div>
-  </header>
-
-  <main>
-
-    <section id="screen-home" class="screen active">
-
-      <div class="hero">
-        <h2>Professional Custom 3D Prints</h2>
-
-        <p class="muted">
-          Shop products, upload STL files,
-          track orders, and preview 3D models.
-        </p>
-
-        <button onclick="showScreen('shop')">
-          Shop Now
-        </button>
-      </div>
-
-      <section class="section">
-        <h2>Recommended Products</h2>
-        <div class="grid" id="recommended"></div>
-      </section>
-
-    </section>
-
-    <section id="screen-shop" class="screen section">
-
-      <div class="layout">
-
-        <aside class="sidebar">
-
-          <h3>Categories</h3>
-
-          <button onclick="setCategory('')">All</button>
-          <button onclick="setCategory('Custom')">Custom</button>
-          <button onclick="setCategory('Figures')">Figures</button>
-          <button onclick="setCategory('Decor')">Decor</button>
-          <button onclick="setCategory('Parts')">Parts</button>
-          <button onclick="setCategory('Gifts')">Gifts</button>
-
-        </aside>
-
-        <div>
-
-          <h2>Shop Products</h2>
-
-          <div class="filters">
-            <input id="searchInput" placeholder="Search products..." oninput="searchProducts()">
-
-            <select id="categoryFilter" onchange="searchProducts()">
-              <option value="">All Categories</option>
-              <option value="Custom">Custom</option>
-              <option value="Figures">Figures</option>
-              <option value="Decor">Decor</option>
-              <option value="Parts">Parts</option>
-              <option value="Gifts">Gifts</option>
-            </select>
-
-            <button onclick="searchProducts()">Search</button>
-          </div>
-
-          <div class="grid" id="products"></div>
-
-        </div>
-      </div>
-
-    </section>
-
-  </main>
-
-  <button id="chatLauncher" onclick="openChat()">
-    AI Chat
-  </button>
-
-  <div id="chat" class="hidden">
-
-    <div class="chat-head">
-      <b>AI Shop Assistant</b>
-
-      <button class="chat-x" onclick="closeChat()">
-        ✕
-      </button>
-    </div>
-
-    <div id="chatMessages">
-      <p>
-        <b>Bot:</b>
-        Ask about products, sales,
-        custom prints, or order tracking.
-      </p>
-    </div>
-
-    <input id="chatInput" placeholder="Ask something...">
-
-    <button onclick="askBot()">
-      Send
+    <button class="secondary-btn">
+      Account
     </button>
 
   </div>
 
-  <footer>
-    Apex 3D Creations © 2026
-  </footer>
+</header>
+
+<section class="hero">
+
+  <h1>
+    Professional Custom 3D Prints
+  </h1>
+
+  <p>
+    Shop custom 3D printed products,
+    STL uploads, gifts, decor,
+    replacement parts, figures,
+    and high quality custom creations.
+  </p>
+
+  <div class="hero-buttons">
+
+    <button class="primary-btn">
+      Shop Now
+    </button>
+
+    <button class="secondary-btn">
+      Upload STL
+    </button>
+
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2 class="section-title">
+    Featured Products
+  </h2>
+
+  <div class="products">
+
+    <div class="product-card">
+
+      <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=1200&auto=format&fit=crop">
+
+      <div class="product-content">
+
+        <h3 class="product-title">
+          Custom 3D Figure
+        </h3>
+
+        <p class="product-description">
+          High quality custom printed figures
+          with detailed finishing and premium materials.
+        </p>
+
+        <div class="price">
+          $24.99
+        </div>
+
+        <div class="product-buttons">
+          <button class="primary-btn">
+            Add To Cart
+          </button>
+
+          <button class="secondary-btn">
+            Wishlist
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="product-card">
+
+      <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=1200&auto=format&fit=crop">
+
+      <div class="product-content">
+
+        <h3 class="product-title">
+          STL Custom Print
+        </h3>
+
+        <p class="product-description">
+          Upload your own STL files and
+          have them professionally printed.
+        </p>
+
+        <div class="price">
+          $39.99
+        </div>
+
+        <div class="product-buttons">
+          <button class="primary-btn">
+            Add To Cart
+          </button>
+
+          <button class="secondary-btn">
+            Wishlist
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="product-card">
+
+      <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop">
+
+      <div class="product-content">
+
+        <h3 class="product-title">
+          Custom Gaming Decor
+        </h3>
+
+        <p class="product-description">
+          Modern custom gaming and desk
+          decor professionally 3D printed.
+        </p>
+
+        <div class="price">
+          $19.99
+        </div>
+
+        <div class="product-buttons">
+          <button class="primary-btn">
+            Add To Cart
+          </button>
+
+          <button class="secondary-btn">
+            Wishlist
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2 class="section-title">
+    Why Choose Apex 3D Creations
+  </h2>
+
+  <div class="features">
+
+    <div class="feature">
+      <h3>Professional Quality</h3>
+
+      <p>
+        High quality materials,
+        clean prints,
+        and detailed finishing.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>Custom STL Uploads</h3>
+
+      <p>
+        Upload STL files and get
+        professional custom prints made for you.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>Fast Support</h3>
+
+      <p>
+        Fast responses,
+        order tracking,
+        and custom print help.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<button id="chatButton" class="primary-btn" onclick="openChat()">
+  AI Chat
+</button>
+
+<div id="chatBox" class="hidden">
+
+  <div class="chat-top">
+
+    <h3>
+      AI Shop Assistant
+    </h3>
+
+    <button class="chat-x" onclick="closeChat()">
+      ✕
+    </button>
+
+  </div>
+
+  <div id="chatMessages">
+
+    <p>
+      <b>Bot:</b>
+      Ask about products,
+      custom prints,
+      STL uploads,
+      or orders.
+    </p>
+
+  </div>
+
+  <input id="chatInput" placeholder="Ask something...">
+
+  <button class="primary-btn" onclick="sendMessage()">
+    Send
+  </button>
 
 </div>
 
+<footer>
+
+  <h2>
+    Apex 3D Creations
+  </h2>
+
+  <p>
+    Professional custom 3D printed products,
+    STL requests, figures, gifts,
+    replacement parts, and custom creations.
+  </p>
+
+  <div class="footer-buttons">
+
+    <a
+      href="mailto:hi0888990@gmail.com"
+      class="footer-btn contact-btn"
+    >
+      Contact: hi0888990@gmail.com
+    </a>
+
+    <a
+      href="https://paypal.me/jayden7493"
+      target="_blank"
+      class="footer-btn paypal-btn"
+    >
+      PayPal Support
+    </a>
+
+  </div>
+
+  <div class="footer-tags">
+
+    <div class="tag">
+      Custom Prints
+    </div>
+
+    <div class="tag">
+      STL Uploads
+    </div>
+
+    <div class="tag">
+      Fast Support
+    </div>
+
+    <div class="tag">
+      Professional Quality
+    </div>
+
+  </div>
+
+  <p class="copyright">
+    Apex 3D Creations © 2026 — All Rights Reserved
+  </p>
+
+</footer>
+
 <script>
-function showSignup(){
-  signupBox.classList.remove("hidden");
-  loginBox.classList.add("hidden");
-}
-
-function showLogin(){
-  loginBox.classList.remove("hidden");
-  signupBox.classList.add("hidden");
-}
-
-function enterStore(){
-  welcomeScreen.classList.add("hidden");
-  storeApp.classList.remove("hidden");
-}
-
-function showScreen(name){
-  document.querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
-
-  document
-    .getElementById("screen-" + name)
-    .classList.add("active");
-}
 
 function openChat(){
-  chat.classList.remove("hidden");
-  chatLauncher.classList.add("hidden");
+  document
+    .getElementById("chatBox")
+    .classList
+    .remove("hidden");
+
+  document
+    .getElementById("chatButton")
+    .classList
+    .add("hidden");
 }
 
 function closeChat(){
-  chat.classList.add("hidden");
-  chatLauncher.classList.remove("hidden");
+  document
+    .getElementById("chatBox")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("chatButton")
+    .classList
+    .remove("hidden");
 }
 
-function askBot(){
-  const input = chatInput.value.trim();
+function sendMessage(){
 
-  if(!input) return;
+  const input =
+    document.getElementById("chatInput");
 
-  chatMessages.innerHTML += `
-    <p><b>You:</b> ${input}</p>
-    <p><b>Bot:</b>
-    I can help with products,
-    sales, STL uploads,
-    checkout, and order tracking.
+  const messages =
+    document.getElementById("chatMessages");
+
+  if(!input.value.trim()) return;
+
+  messages.innerHTML += `
+    <p>
+      <b>You:</b>
+      ${input.value}
+    </p>
+
+    <p>
+      <b>Bot:</b>
+      I can help with products,
+      STL uploads,
+      checkout,
+      and order tracking.
     </p>
   `;
 
-  chatInput.value = "";
+  input.value = "";
+
+  messages.scrollTop =
+    messages.scrollHeight;
 }
 
-async function signup(){
-  alert("Signup connected to backend.");
-}
-
-async function login(){
-  alert("Login connected to backend.");
-}
 </script>
 
 </body>
