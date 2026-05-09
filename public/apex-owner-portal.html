@@ -14,12 +14,66 @@
       font-family: Arial, Helvetica, sans-serif;
       background: #070b16;
       color: white;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,11,22,0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid #1f2937;
+      padding: 16px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg,#2563eb,#7c3aed);
+      transition: .2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0,0,0,.35);
+    }
+
+    button.secondary {
+      background: #111827;
+      border: 1px solid #334155;
+    }
+
+    button.danger {
+      background: linear-gradient(135deg,#dc2626,#991b1b);
+    }
+
+    .section {
       padding: 35px 7%;
     }
 
-    h1 {
-      font-size: 42px;
-      margin-bottom: 5px;
+    .section-title {
+      font-size: 34px;
+      margin-bottom: 8px;
     }
 
     .muted {
@@ -30,33 +84,14 @@
       background: #111827;
       border: 1px solid #1f2937;
       border-radius: 24px;
-      padding: 24px;
-      margin: 20px 0;
-      box-shadow: 0 18px 42px rgba(0,0,0,0.45);
-    }
-
-    input, select {
-      border: 1px solid #334155;
-      background: #020617;
-      color: white;
-      padding: 13px;
-      border-radius: 14px;
-      margin: 6px 0;
-    }
-
-    button {
-      border: none;
-      border-radius: 14px;
-      padding: 12px 18px;
-      font-weight: 800;
-      color: white;
-      cursor: pointer;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      padding: 22px;
+      box-shadow: 0 18px 42px rgba(0,0,0,.40);
+      margin-top: 20px;
     }
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
       gap: 16px;
     }
 
@@ -67,172 +102,401 @@
       padding: 20px;
     }
 
-    .order {
+    .product,
+    .order,
+    .user {
       background: #020617;
       border: 1px solid #1f2937;
       border-radius: 18px;
-      padding: 18px;
+      padding: 16px;
       margin-top: 14px;
     }
 
-    .inventory-row {
-      display: flex;
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #334155;
+      background: #020617;
+      color: white;
+      padding: 14px;
+      border-radius: 14px;
+      margin: 8px 0;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
       gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      padding: 12px 0;
-      border-bottom: 1px solid #1f2937;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .sale {
+      color: #facc15;
+      font-weight: 900;
+    }
+
+    img.preview {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-top: 10px;
+    }
+
+    @media (max-width:700px) {
+      header {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 
 <body>
-  <h1>Apex Owner Portal</h1>
-  <p class="muted">Hidden admin dashboard for inventory, orders, analytics, and tracking status.</p>
 
-  <div class="card" id="loginBox">
+<header>
+  <div class="logo">Apex Owner Portal</div>
+
+  <div class="nav">
+    <button onclick="location.href='/'">Shop</button>
+    <button onclick="loadAdmin()">Refresh Dashboard</button>
+    <button class="danger" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<section class="section">
+
+  <div id="loginBox" class="card">
     <h2>Admin Login</h2>
+
     <input id="adminPassword" type="password" placeholder="Admin password">
+
     <button onclick="login()">Login</button>
   </div>
 
-  <div id="dashboard" style="display:none;">
+  <div id="dashboard" class="hidden">
+
+    <h2 class="section-title">Analytics Dashboard</h2>
+
+    <div class="stats" id="stats"></div>
+
     <div class="card">
-      <h2>Analytics Dashboard</h2>
-      <div class="stats" id="stats"></div>
+      <h2>Add Product</h2>
+
+      <div class="grid">
+        <input id="newName" placeholder="Product name">
+        <input id="newCategory" placeholder="Category">
+        <input id="newPrice" placeholder="Price">
+        <input id="newDiscount" placeholder="Discount percent">
+        <input id="newStock" placeholder="Stock count">
+        <input id="newImage" placeholder="Image URL">
+        <input id="newModel" placeholder="3D model URL">
+      </div>
+
+      <textarea id="newDescription" placeholder="Product description"></textarea>
+
+      <label>
+        <input type="checkbox" id="newSale">
+        Put product on sale
+      </label>
+
+      <button onclick="addProduct()">Add Product</button>
     </div>
 
     <div class="card">
-      <h2>Inventory System</h2>
-      <p class="muted">Edit product stock counts here.</p>
-      <div id="inventory"></div>
+      <h2>Products</h2>
+      <div id="products"></div>
     </div>
 
     <div class="card">
       <h2>Orders</h2>
-      <p class="muted">Update order status: Processing → Printing → Shipped → Delivered.</p>
       <div id="orders"></div>
     </div>
+
+    <div class="card">
+      <h2>Users</h2>
+      <div id="users"></div>
+    </div>
+
   </div>
+</section>
 
-  <script>
-    let adminPass = "";
+<script>
+  let loggedIn = false;
 
-    function login() {
-      adminPass = document.getElementById("adminPassword").value.trim();
+  async function login() {
+    const password = document.getElementById("adminPassword").value;
 
-      if (!adminPass) {
-        alert("Enter admin password.");
-        return;
-      }
+    const res = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ password })
+    });
 
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("dashboard").style.display = "block";
+    const data = await res.json();
 
-      loadAdmin();
+    if (!data.ok) {
+      alert(data.error || "Wrong password");
+      return;
     }
 
-    async function adminFetch(url, options = {}) {
-      options.headers = {
-        ...(options.headers || {}),
-        "Content-Type": "application/json",
-        "x-admin-password": adminPass
-      };
+    loggedIn = true;
 
-      return fetch(url, options);
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+
+    loadAdmin();
+  }
+
+  async function logout() {
+    await fetch("/api/admin/logout", {
+      method: "POST"
+    });
+
+    location.reload();
+  }
+
+  async function loadAdmin() {
+    const res = await fetch("/api/admin/analytics");
+    const data = await res.json();
+
+    if (data.error) {
+      alert("Admin session expired.");
+      location.reload();
+      return;
     }
 
-    async function loadAdmin() {
-      const res = await adminFetch("/api/admin/analytics");
-      const data = await res.json();
+    document.getElementById("stats").innerHTML = `
+      <div class="stat">
+        <h3>Total Orders</h3>
+        <h2>${data.totalOrders}</h2>
+      </div>
 
-      if (data.error) {
-        alert("Wrong admin password.");
-        location.reload();
-        return;
-      }
+      <div class="stat">
+        <h3>Total Users</h3>
+        <h2>${data.totalUsers}</h2>
+      </div>
 
-      document.getElementById("stats").innerHTML = `
-        <div class="stat">
-          <h3>Total Orders</h3>
-          <h2>${data.totalOrders}</h2>
+      <div class="stat">
+        <h3>Revenue</h3>
+        <h2>$${Number(data.revenue).toFixed(2)}</h2>
+      </div>
+
+      <div class="stat">
+        <h3>Visitors</h3>
+        <h2>${data.visitors}</h2>
+      </div>
+
+      <div class="stat">
+        <h3>Cart Opens</h3>
+        <h2>${data.cartsOpened}</h2>
+      </div>
+    `;
+
+    document.getElementById("products").innerHTML = data.products.map(product => `
+      <div class="product">
+        <h3>${product.name}</h3>
+
+        ${product.onSale
+          ? `<p class="sale">SALE ${product.discountPercent}% OFF</p>`
+          : ""
+        }
+
+        <p>Category: ${product.category}</p>
+        <p>Price: $${product.price}</p>
+        <p>Final Price: $${product.finalPrice.toFixed(2)}</p>
+        <p>Stock: ${product.stock}</p>
+        <p>Sold: ${product.sold}</p>
+
+        <img class="preview" src="${product.image}">
+
+        <div class="grid">
+          <input id="name${product.id}" value="${product.name}">
+          <input id="category${product.id}" value="${product.category}">
+          <input id="price${product.id}" value="${product.price}">
+          <input id="discount${product.id}" value="${product.discountPercent}">
+          <input id="stock${product.id}" value="${product.stock}">
+          <input id="image${product.id}" value="${product.image}">
+          <input id="model${product.id}" value="${product.model}">
         </div>
 
-        <div class="stat">
-          <h3>Revenue</h3>
-          <h2>$${Number(data.revenue).toFixed(2)}</h2>
+        <textarea id="description${product.id}">${product.description}</textarea>
+
+        <label>
+          <input type="checkbox" id="sale${product.id}" ${product.onSale ? "checked" : ""}>
+          On Sale
+        </label>
+
+        <br><br>
+
+        <button onclick="saveProduct(${product.id})">Save Product</button>
+        <button class="danger" onclick="deleteProduct(${product.id})">Delete Product</button>
+      </div>
+    `).join("");
+
+    document.getElementById("orders").innerHTML = data.orders.length
+      ? data.orders.map(order => `
+        <div class="order">
+          <h3>${order.id}</h3>
+
+          <p><b>${order.name}</b></p>
+          <p>${order.phone}</p>
+          <p>${order.email}</p>
+
+          <p>
+            ${order.streetAddress}<br>
+            ${order.city}, ${order.state} ${order.zip}
+          </p>
+
+          <p>Total: $${order.total}</p>
+          <p>Status: ${order.status}</p>
+
+          <p>Items:
+            ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}
+          </p>
+
+          <select id="status${order.id}">
+            <option ${order.status==="Processing"?"selected":""}>Processing</option>
+            <option ${order.status==="Printing"?"selected":""}>Printing</option>
+            <option ${order.status==="Shipped"?"selected":""}>Shipped</option>
+            <option ${order.status==="Delivered"?"selected":""}>Delivered</option>
+          </select>
+
+          <button onclick="updateOrder('${order.id}')">Update Status</button>
         </div>
+      `).join("")
+      : "<p class='muted'>No orders yet.</p>";
 
-        <div class="stat">
-          <h3>Visitors</h3>
-          <h2>${data.visitors}</h2>
+    document.getElementById("users").innerHTML = data.users.length
+      ? data.users.map(user => `
+        <div class="user">
+          <h3>${user.username}</h3>
+          <p>${user.email}</p>
+          <p>${user.phone}</p>
+          <p class="muted">Joined: ${user.createdAt}</p>
         </div>
+      `).join("")
+      : "<p class='muted'>No users yet.</p>";
+  }
 
-        <div class="stat">
-          <h3>Cart Opens</h3>
-          <h2>${data.cartsOpened}</h2>
-        </div>
-      `;
+  async function addProduct() {
+    const body = {
+      name: document.getElementById("newName").value,
+      category: document.getElementById("newCategory").value,
+      price: document.getElementById("newPrice").value,
+      discountPercent: document.getElementById("newDiscount").value,
+      stock: document.getElementById("newStock").value,
+      image: document.getElementById("newImage").value,
+      model: document.getElementById("newModel").value,
+      description: document.getElementById("newDescription").value,
+      onSale: document.getElementById("newSale").checked
+    };
 
-      document.getElementById("inventory").innerHTML = data.products.map(product => `
-        <div class="inventory-row">
-          <b>${product.name}</b>
-          <span>Sold: ${product.sold}</span>
-          <span>Stock:</span>
-          <input id="stock${product.id}" value="${product.stock}" style="width:80px;">
-          <button onclick="updateStock(${product.id})">Save Stock</button>
-        </div>
-      `).join("");
+    const res = await fetch("/api/admin/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
 
-      document.getElementById("orders").innerHTML = data.orders.length
-        ? data.orders.map(order => `
-          <div class="order">
-            <h3>${order.id}</h3>
-            <p><b>${order.name}</b></p>
-            <p>${order.phone} | ${order.email}</p>
-            <p>${order.streetAddress}</p>
-            <p>${order.city}, ${order.state} ${order.zip}</p>
-            <p>Total: $${order.total}</p>
-            <p>Notes: ${order.notes || "None"}</p>
-            <p>Items: ${order.cart.map(i => `${i.name} x ${i.qty}`).join(", ")}</p>
-            <p class="muted">${order.date}</p>
+    const data = await res.json();
 
-            <select id="status${order.id}">
-              <option ${order.status === "Processing" ? "selected" : ""}>Processing</option>
-              <option ${order.status === "Printing" ? "selected" : ""}>Printing</option>
-              <option ${order.status === "Shipped" ? "selected" : ""}>Shipped</option>
-              <option ${order.status === "Delivered" ? "selected" : ""}>Delivered</option>
-            </select>
-
-            <button onclick="updateStatus('${order.id}')">Update Status</button>
-          </div>
-        `).join("")
-        : "<p class='muted'>No orders yet.</p>";
+    if (!data.ok) {
+      alert(data.error || "Failed to add product");
+      return;
     }
 
-    async function updateStock(id) {
-      const stock = document.getElementById("stock" + id).value;
+    alert("Product added.");
+    loadAdmin();
+  }
 
-      await adminFetch("/api/admin/stock", {
-        method: "POST",
-        body: JSON.stringify({ id, stock })
-      });
+  async function saveProduct(id) {
+    const body = {
+      name: document.getElementById("name" + id).value,
+      category: document.getElementById("category" + id).value,
+      price: document.getElementById("price" + id).value,
+      discountPercent: document.getElementById("discount" + id).value,
+      stock: document.getElementById("stock" + id).value,
+      image: document.getElementById("image" + id).value,
+      model: document.getElementById("model" + id).value,
+      description: document.getElementById("description" + id).value,
+      onSale: document.getElementById("sale" + id).checked
+    };
 
-      alert("Stock updated.");
-      loadAdmin();
+    const res = await fetch("/api/admin/products/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      alert(data.error || "Failed to save product");
+      return;
     }
 
-    async function updateStatus(id) {
-      const status = document.getElementById("status" + id).value;
+    alert("Product updated.");
+    loadAdmin();
+  }
 
-      await adminFetch("/api/admin/order-status", {
-        method: "POST",
-        body: JSON.stringify({ id, status })
-      });
+  async function deleteProduct(id) {
+    if (!confirm("Delete this product?")) return;
 
-      alert("Order status updated.");
-      loadAdmin();
+    const res = await fetch("/api/admin/products/" + id, {
+      method: "DELETE"
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      alert(data.error || "Failed to delete product");
+      return;
     }
-  </script>
+
+    alert("Product deleted.");
+    loadAdmin();
+  }
+
+  async function updateOrder(id) {
+    const status = document.getElementById("status" + id).value;
+
+    const res = await fetch("/api/admin/order-status", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id,
+        status
+      })
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      alert(data.error || "Failed to update order");
+      return;
+    }
+
+    alert("Order updated.");
+    loadAdmin();
+  }
+</script>
+
 </body>
 </html>
