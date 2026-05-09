@@ -3,12 +3,18 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@paypal/checkout-server-sdk": "latest",
     "bcrypt": "latest",
+    "connect-mongo": "latest",
     "dotenv": "latest",
     "express": "latest",
     "express-rate-limit": "latest",
     "express-session": "latest",
     "helmet": "latest",
-    "nodemailer": "latest"
+    "mongodb": "latest",
+    "mongoose": "latest",
+    "multer": "latest",
+    "nodemailer": "latest",
+    "openai": "latest"
   }
 }
