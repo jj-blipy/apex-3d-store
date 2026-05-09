@@ -1,711 +1,1153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Apex 3D Creations</title>
+  <meta name="description" content="Apex 3D Creations sells custom 3D printed items, STL prints, figures, gifts, parts, and professional custom creations.">
+
+  <link rel="manifest" href="/manifest.json">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #070b16;
+      color: white;
     }
 
-    body{
-      font-family:Arial,Helvetica,sans-serif;
-      background:#070b16;
-      color:white;
+    .hidden { display: none !important; }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 18px;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      transition: 0.2s;
     }
 
-    a{
-      text-decoration:none;
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
     }
 
-    button{
-      cursor:pointer;
-      border:none;
-      border-radius:14px;
-      padding:12px 18px;
-      font-weight:700;
-      transition:.2s;
+    button.secondary {
+      background: #111827;
+      border: 1px solid #334155;
     }
 
-    button:hover{
-      transform:translateY(-2px);
+    button.danger {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
     }
 
-    .primary-btn{
-      background:linear-gradient(135deg,#2563eb,#7c3aed);
-      color:white;
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
-    .secondary-btn{
-      background:#111827;
-      color:white;
-      border:1px solid #334155;
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #334155;
+      background: #020617;
+      color: white;
+      padding: 14px;
+      border-radius: 14px;
+      margin: 8px 0;
+      font-size: 15px;
     }
 
-    header{
-      position:sticky;
-      top:0;
-      z-index:100;
-      padding:18px 7%;
-      background:rgba(7,11,22,.92);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid #1f2937;
-
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:15px;
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
 
-    .logo{
-      font-size:28px;
-      font-weight:900;
-    }
-
-    .nav{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .hero{
-      padding:100px 7%;
-      text-align:center;
-
+    .welcome {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 30px;
       background:
-      radial-gradient(circle at top right,rgba(37,99,235,.35),transparent 35%),
-      radial-gradient(circle at bottom left,rgba(124,58,237,.28),transparent 30%),
-      linear-gradient(135deg,#020617,#111827);
+        radial-gradient(circle at top right, rgba(37,99,235,.45), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(124,58,237,.35), transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a);
     }
 
-    .hero h1{
-      font-size:70px;
-      margin-bottom:20px;
+    .welcome-card {
+      width: 100%;
+      max-width: 1050px;
+      background: rgba(17,24,39,.9);
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 35px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 30px;
     }
 
-    .hero p{
-      color:#cbd5e1;
-      font-size:20px;
-      max-width:850px;
-      margin:auto;
-      line-height:1.7;
+    .brand h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      margin: 0;
+      letter-spacing: -2px;
     }
 
-    .hero-buttons{
-      margin-top:35px;
-
-      display:flex;
-      justify-content:center;
-      gap:15px;
-      flex-wrap:wrap;
+    .brand p {
+      color: #cbd5e1;
+      font-size: 19px;
+      line-height: 1.6;
     }
 
-    .section{
-      padding:60px 7%;
+    .auth-card {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 24px;
+      padding: 24px;
     }
 
-    .section-title{
-      font-size:40px;
-      margin-bottom:30px;
+    .auth-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
-    .products{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-      gap:25px;
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7,11,22,.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid #1f2937;
+      padding: 16px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .product-card{
-      background:#111827;
-      border:1px solid #1f2937;
-      border-radius:24px;
-      overflow:hidden;
-      transition:.25s;
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
     }
 
-    .product-card:hover{
-      transform:translateY(-5px);
-      box-shadow:0 18px 42px rgba(0,0,0,.4);
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
-    .product-card img{
-      width:100%;
-      height:240px;
-      object-fit:cover;
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .hero {
+      padding: 90px 7%;
+      text-align: center;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.35), transparent 36%),
+        linear-gradient(135deg, #0f172a, #111827);
     }
 
-    .product-content{
-      padding:20px;
+    .hero h2 {
+      font-size: clamp(38px, 6vw, 72px);
+      margin: 0;
     }
 
-    .product-title{
-      font-size:24px;
-      margin-bottom:10px;
+    .hero p {
+      color: #cbd5e1;
+      font-size: 19px;
+      line-height: 1.7;
+      max-width: 800px;
+      margin: 18px auto;
     }
 
-    .product-description{
-      color:#cbd5e1;
-      line-height:1.6;
-      margin-bottom:18px;
+    .section {
+      padding: 42px 7%;
     }
 
-    .price{
-      font-size:28px;
-      font-weight:900;
-      color:#93c5fd;
-      margin-bottom:18px;
+    .muted {
+      color: #94a3b8;
     }
 
-    .product-buttons{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 22px;
+      align-items: start;
     }
 
-    .features{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:20px;
+    .sidebar,
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 18px 42px rgba(0,0,0,.4);
     }
 
-    .feature{
-      background:#111827;
-      border:1px solid #1f2937;
-      border-radius:22px;
-      padding:25px;
+    .sidebar button {
+      width: 100%;
+      margin: 6px 0;
+      text-align: left;
     }
 
-    .feature h3{
-      margin-bottom:12px;
-      font-size:24px;
+    .filters {
+      display: grid;
+      grid-template-columns: 2fr 1fr auto;
+      gap: 12px;
+      margin-top: 20px;
     }
 
-    .feature p{
-      color:#cbd5e1;
-      line-height:1.7;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
     }
 
-    #chatButton{
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      z-index:300;
-      border-radius:999px;
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 20px;
+      background: #020617;
     }
 
-    #chatBox{
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      width:340px;
-      max-width:calc(100vw - 30px);
-
-      background:#111827;
-      border:1px solid #334155;
-      border-radius:22px;
-
-      padding:18px;
-      z-index:301;
-
-      box-shadow:0 18px 48px rgba(0,0,0,.55);
+    .product-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .hidden{
-      display:none !important;
+    .price {
+      font-size: 25px;
+      font-weight: 900;
+      color: #93c5fd;
+      text-align: right;
     }
 
-    .chat-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:15px;
+    .old-price {
+      color: #94a3b8;
+      text-decoration: line-through;
+      font-size: 15px;
     }
 
-    .chat-x{
-      width:38px;
-      height:38px;
-      border-radius:999px;
-      background:#dc2626;
-      color:white;
-      font-size:18px;
-      font-weight:900;
+    .sale {
+      color: #facc15;
+      font-weight: 900;
     }
 
-    #chatMessages{
-      height:160px;
-      overflow-y:auto;
-      color:#cbd5e1;
-      margin-bottom:12px;
-      line-height:1.6;
+    .pill {
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin: 5px 0;
     }
 
-    #chatInput{
-      width:100%;
-      border:1px solid #334155;
-      background:#020617;
-      color:white;
-      padding:14px;
-      border-radius:14px;
-      margin-bottom:10px;
+    .in-stock {
+      background: rgba(34,197,94,.14);
+      color: #4ade80;
     }
 
-    footer{
-      padding:50px 7%;
-      background:#020617;
-      border-top:1px solid #1f2937;
-      margin-top:60px;
-      text-align:center;
+    .low-stock {
+      background: rgba(245,158,11,.14);
+      color: #fbbf24;
     }
 
-    footer h2{
-      font-size:36px;
-      margin-bottom:18px;
+    .sold-out {
+      background: rgba(239,68,68,.14);
+      color: #f87171;
     }
 
-    footer p{
-      color:#cbd5e1;
-      line-height:1.7;
-      margin-top:10px;
+    model-viewer {
+      width: 100%;
+      height: 280px;
+      border-radius: 20px;
+      background: #020617;
+      margin: 14px 0;
+      border: 1px solid #1f2937;
     }
 
-    .footer-buttons{
-      margin-top:30px;
-
-      display:flex;
-      justify-content:center;
-      gap:18px;
-      flex-wrap:wrap;
+    .cart-box,
+    .order-card {
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 12px;
     }
 
-    .footer-btn{
-      padding:14px 22px;
-      border-radius:16px;
-      font-weight:800;
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
     }
 
-    .contact-btn{
-      background:#111827;
-      border:1px solid #334155;
-      color:#93c5fd;
+    .banner {
+      padding: 12px 7%;
+      background: linear-gradient(135deg, #facc15, #f97316);
+      color: #111827;
+      font-weight: 900;
+      text-align: center;
     }
 
-    .paypal-btn{
-      background:linear-gradient(135deg,#2563eb,#7c3aed);
-      color:white;
+    #chatLauncher {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 200;
+      border-radius: 999px;
     }
 
-    .footer-tags{
-      margin-top:35px;
-
-      display:flex;
-      justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
+    #chat {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 330px;
+      max-width: calc(100vw - 40px);
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 18px 48px rgba(0,0,0,.55);
+      z-index: 201;
     }
 
-    .tag{
-      background:#111827;
-      border:1px solid #334155;
-      padding:10px 16px;
-      border-radius:999px;
-      color:#cbd5e1;
+    .chat-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .copyright{
-      color:#64748b;
-      margin-top:40px;
-      font-size:14px;
+    .chat-x {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: 999px;
+      background: #dc2626;
+      color: white;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 36px;
+      text-align: center;
     }
 
-    @media(max-width:800px){
+    #chatMessages {
+      height: 145px;
+      overflow-y: auto;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
 
-      .hero h1{
-        font-size:48px;
+    footer {
+      padding: 50px 7%;
+      background: #020617;
+      border-top: 1px solid #1f2937;
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    footer h2 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    footer p {
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    .footer-buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-btn {
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .contact-btn {
+      background: #111827;
+      border: 1px solid #334155;
+      color: #93c5fd;
+    }
+
+    .paypal-btn {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+    }
+
+    .footer-tags {
+      margin-top: 35px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: #111827;
+      border: 1px solid #334155;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: #cbd5e1;
+    }
+
+    .copyright {
+      color: #64748b;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      .welcome-card,
+      .layout {
+        grid-template-columns: 1fr;
       }
 
-      .section-title{
-        font-size:32px;
+      .filters {
+        grid-template-columns: 1fr;
       }
-
     }
   </style>
 </head>
 
 <body>
 
-<header>
+<section id="welcomeScreen" class="welcome">
+  <div class="welcome-card">
+    <div class="brand">
+      <h1>Apex 3D Creations</h1>
+      <p>
+        Professional custom 3D printed products, STL requests, figures,
+        gifts, decor, parts, and custom creations.
+      </p>
+      <button onclick="enterStore()">Enter Store as Guest</button>
+    </div>
 
-  <div class="logo">
-    Apex 3D Creations
-  </div>
+    <div class="auth-card">
+      <div id="welcomeStatus" class="muted">Not logged in.</div>
 
-  <div class="nav">
-
-    <button class="secondary-btn">
-      Home
-    </button>
-
-    <button class="secondary-btn">
-      Shop
-    </button>
-
-    <button class="secondary-btn">
-      Cart
-    </button>
-
-    <button class="secondary-btn">
-      Wishlist
-    </button>
-
-    <button class="secondary-btn">
-      Orders
-    </button>
-
-    <button class="secondary-btn">
-      Account
-    </button>
-
-  </div>
-
-</header>
-
-<section class="hero">
-
-  <h1>
-    Professional Custom 3D Prints
-  </h1>
-
-  <p>
-    Shop custom 3D printed products,
-    STL uploads, gifts, decor,
-    replacement parts, figures,
-    and high quality custom creations.
-  </p>
-
-  <div class="hero-buttons">
-
-    <button class="primary-btn">
-      Shop Now
-    </button>
-
-    <button class="secondary-btn">
-      Upload STL
-    </button>
-
-  </div>
-
-</section>
-
-<section class="section">
-
-  <h2 class="section-title">
-    Featured Products
-  </h2>
-
-  <div class="products">
-
-    <div class="product-card">
-
-      <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=1200&auto=format&fit=crop">
-
-      <div class="product-content">
-
-        <h3 class="product-title">
-          Custom 3D Figure
-        </h3>
-
-        <p class="product-description">
-          High quality custom printed figures
-          with detailed finishing and premium materials.
-        </p>
-
-        <div class="price">
-          $24.99
-        </div>
-
-        <div class="product-buttons">
-          <button class="primary-btn">
-            Add To Cart
-          </button>
-
-          <button class="secondary-btn">
-            Wishlist
-          </button>
-        </div>
-
+      <div class="auth-tabs">
+        <button onclick="showSignup()">Sign Up</button>
+        <button class="secondary" onclick="showLogin()">Login</button>
       </div>
 
-    </div>
-
-    <div class="product-card">
-
-      <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=1200&auto=format&fit=crop">
-
-      <div class="product-content">
-
-        <h3 class="product-title">
-          STL Custom Print
-        </h3>
-
-        <p class="product-description">
-          Upload your own STL files and
-          have them professionally printed.
-        </p>
-
-        <div class="price">
-          $39.99
-        </div>
-
-        <div class="product-buttons">
-          <button class="primary-btn">
-            Add To Cart
-          </button>
-
-          <button class="secondary-btn">
-            Wishlist
-          </button>
-        </div>
-
+      <div id="signupBox">
+        <h2>Create Account</h2>
+        <input id="signupUsername" placeholder="Username">
+        <input id="signupEmail" placeholder="Email">
+        <input id="signupPhone" placeholder="Phone number">
+        <input id="signupPassword" type="password" placeholder="Password">
+        <button onclick="signup()">Sign Up & Enter Store</button>
       </div>
 
+      <div id="loginBox" class="hidden">
+        <h2>Login</h2>
+        <input id="loginEmailOrUsername" placeholder="Email or username">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <button onclick="login()">Login & Enter Store</button>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="product-card">
+<div id="storeApp" class="hidden">
+  <div id="saleBanner" class="banner hidden"></div>
 
-      <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop">
+  <header>
+    <div class="logo">Apex 3D Creations</div>
 
-      <div class="product-content">
+    <div class="nav">
+      <span id="userBadge" class="muted">Guest</span>
+      <button onclick="showScreen('home')">Home</button>
+      <button onclick="showScreen('shop')">Shop</button>
+      <button onclick="showScreen('cart')">Cart (<span id="cartCount">0</span>)</button>
+      <button onclick="showScreen('wishlist')">Wishlist</button>
+      <button onclick="showScreen('orders')">Orders</button>
+      <button onclick="showScreen('account')">Account</button>
+      <button class="danger" onclick="logout()">Logout</button>
+    </div>
+  </header>
 
-        <h3 class="product-title">
-          Custom Gaming Decor
-        </h3>
-
-        <p class="product-description">
-          Modern custom gaming and desk
-          decor professionally 3D printed.
+  <main>
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <h2>Professional Custom 3D Prints</h2>
+        <p>
+          Shop products, upload STL files, use coupons, track orders,
+          and preview 3D models.
         </p>
-
-        <div class="price">
-          $19.99
-        </div>
-
-        <div class="product-buttons">
-          <button class="primary-btn">
-            Add To Cart
-          </button>
-
-          <button class="secondary-btn">
-            Wishlist
-          </button>
-        </div>
-
+        <button onclick="showScreen('shop')">Shop Now</button>
       </div>
 
+      <section class="section">
+        <h2>Recommended Products</h2>
+        <div class="grid" id="recommended"></div>
+      </section>
+    </section>
+
+    <section id="screen-shop" class="screen section">
+      <div class="layout">
+        <aside class="sidebar">
+          <h3>Categories</h3>
+          <button onclick="setCategory('')">All</button>
+          <button onclick="setCategory('Custom')">Custom</button>
+          <button onclick="setCategory('Figures')">Figures</button>
+          <button onclick="setCategory('Decor')">Decor</button>
+          <button onclick="setCategory('Parts')">Parts</button>
+          <button onclick="setCategory('Gifts')">Gifts</button>
+          <button onclick="setCategory('General')">General</button>
+        </aside>
+
+        <div>
+          <h2>Shop Products</h2>
+
+          <div class="filters">
+            <input id="searchInput" placeholder="Search products..." oninput="searchProducts()">
+
+            <select id="categoryFilter" onchange="searchProducts()">
+              <option value="">All Categories</option>
+              <option value="Custom">Custom</option>
+              <option value="Figures">Figures</option>
+              <option value="Decor">Decor</option>
+              <option value="Parts">Parts</option>
+              <option value="Gifts">Gifts</option>
+              <option value="General">General</option>
+            </select>
+
+            <button onclick="searchProducts()">Search</button>
+          </div>
+
+          <div class="grid" id="products"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-cart" class="screen section">
+      <div class="card">
+        <h2>Cart & Checkout</h2>
+        <div class="cart-box" id="cartPreview">Your cart is empty.</div>
+
+        <h3>Coupon Code</h3>
+        <input id="couponCode" placeholder="Example: APEX10">
+        <button onclick="applyCoupon()">Apply Coupon</button>
+        <p id="couponStatus" class="muted"></p>
+
+        <h3>Upload STL File For Custom Orders</h3>
+        <input id="stlFile" type="file" accept=".stl,.obj,.glb,.gltf">
+        <button onclick="uploadSTL()">Upload STL</button>
+        <p id="stlStatus" class="muted"></p>
+
+        <h3>Shipping Info</h3>
+        <div class="checkout-grid">
+          <input id="customerName" placeholder="Full name">
+          <input id="customerPhone" placeholder="Phone number">
+          <input id="customerEmail" placeholder="Email address">
+          <input id="streetAddress" placeholder="Street address, house number, apartment">
+          <input id="city" placeholder="City">
+          <input id="state" placeholder="State">
+          <input id="zip" placeholder="ZIP code">
+        </div>
+
+        <textarea id="orderNotes" placeholder="Order notes, custom size, color, details, or file notes"></textarea>
+
+        <button onclick="placeOrder()">Place Order & Pay With PayPal</button>
+
+        <p class="muted">
+          Privacy: this site does not store card numbers. Payment is handled by PayPal.
+        </p>
+      </div>
+    </section>
+
+    <section id="screen-wishlist" class="screen section">
+      <div class="card">
+        <h2>Wishlist / Favorites</h2>
+        <p class="muted">Log in to save favorites.</p>
+        <button onclick="loadWishlist()">Refresh Wishlist</button>
+        <div class="grid" id="wishlistBox"></div>
+      </div>
+    </section>
+
+    <section id="screen-orders" class="screen section">
+      <div class="card">
+        <h2>Track Your Order</h2>
+        <input id="trackPhone" placeholder="Phone number">
+        <button onclick="loadOrders()">Track Order</button>
+        <button onclick="loadCustomerOrders()">My Account Orders</button>
+        <div id="ordersBox"></div>
+      </div>
+    </section>
+
+    <section id="screen-account" class="screen section">
+      <div class="card">
+        <h2>Account</h2>
+        <p id="accountInfo" class="muted">Guest</p>
+        <button class="danger" onclick="logout()">Logout</button>
+      </div>
+    </section>
+  </main>
+
+  <button id="chatLauncher" onclick="openChat()">AI Chat</button>
+
+  <div id="chat" class="hidden">
+    <div class="chat-head">
+      <b>AI Shop Assistant</b>
+      <button class="chat-x" onclick="closeChat()">✕</button>
     </div>
 
+    <div id="chatMessages">
+      <p><b>Bot:</b> Ask about products, sales, STL uploads, checkout, PayPal, or order tracking.</p>
+    </div>
+
+    <input id="chatInput" placeholder="Ask something...">
+    <button onclick="askBot()">Send</button>
   </div>
 
-</section>
-
-<section class="section">
-
-  <h2 class="section-title">
-    Why Choose Apex 3D Creations
-  </h2>
-
-  <div class="features">
-
-    <div class="feature">
-      <h3>Professional Quality</h3>
-
-      <p>
-        High quality materials,
-        clean prints,
-        and detailed finishing.
-      </p>
-    </div>
-
-    <div class="feature">
-      <h3>Custom STL Uploads</h3>
-
-      <p>
-        Upload STL files and get
-        professional custom prints made for you.
-      </p>
-    </div>
-
-    <div class="feature">
-      <h3>Fast Support</h3>
-
-      <p>
-        Fast responses,
-        order tracking,
-        and custom print help.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-<button id="chatButton" class="primary-btn" onclick="openChat()">
-  AI Chat
-</button>
-
-<div id="chatBox" class="hidden">
-
-  <div class="chat-top">
-
-    <h3>
-      AI Shop Assistant
-    </h3>
-
-    <button class="chat-x" onclick="closeChat()">
-      ✕
-    </button>
-
-  </div>
-
-  <div id="chatMessages">
+  <footer>
+    <h2>Apex 3D Creations</h2>
 
     <p>
-      <b>Bot:</b>
-      Ask about products,
-      custom prints,
-      STL uploads,
-      or orders.
+      Professional custom 3D printed products, STL requests, figures,
+      gifts, decor, replacement parts, and custom creations.
     </p>
 
-  </div>
+    <div class="footer-buttons">
+      <a href="mailto:hi0888990@gmail.com" class="footer-btn contact-btn">
+        Contact: hi0888990@gmail.com
+      </a>
 
-  <input id="chatInput" placeholder="Ask something...">
+      <a href="https://paypal.me/jayden7493" target="_blank" class="footer-btn paypal-btn">
+        PayPal Support
+      </a>
+    </div>
 
-  <button class="primary-btn" onclick="sendMessage()">
-    Send
-  </button>
+    <div class="footer-tags">
+      <div class="tag">Custom Prints</div>
+      <div class="tag">STL Uploads</div>
+      <div class="tag">Fast Support</div>
+      <div class="tag">Professional Quality</div>
+    </div>
 
+    <p class="copyright">
+      Apex 3D Creations © 2026 — All Rights Reserved
+    </p>
+  </footer>
 </div>
 
-<footer>
-
-  <h2>
-    Apex 3D Creations
-  </h2>
-
-  <p>
-    Professional custom 3D printed products,
-    STL requests, figures, gifts,
-    replacement parts, and custom creations.
-  </p>
-
-  <div class="footer-buttons">
-
-    <a
-      href="mailto:hi0888990@gmail.com"
-      class="footer-btn contact-btn"
-    >
-      Contact: hi0888990@gmail.com
-    </a>
-
-    <a
-      href="https://paypal.me/jayden7493"
-      target="_blank"
-      class="footer-btn paypal-btn"
-    >
-      PayPal Support
-    </a>
-
-  </div>
-
-  <div class="footer-tags">
-
-    <div class="tag">
-      Custom Prints
-    </div>
-
-    <div class="tag">
-      STL Uploads
-    </div>
-
-    <div class="tag">
-      Fast Support
-    </div>
-
-    <div class="tag">
-      Professional Quality
-    </div>
-
-  </div>
-
-  <p class="copyright">
-    Apex 3D Creations © 2026 — All Rights Reserved
-  </p>
-
-</footer>
-
 <script>
+let products = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let currentUser = null;
+let coupon = null;
+let uploadedSTL = "";
 
-function openChat(){
-  document
-    .getElementById("chatBox")
-    .classList
-    .remove("hidden");
+fetch("/api/visit", { method: "POST" }).catch(() => {});
 
-  document
-    .getElementById("chatButton")
-    .classList
-    .add("hidden");
+function money(num) {
+  return Number(num).toFixed(2);
 }
 
-function closeChat(){
-  document
-    .getElementById("chatBox")
-    .classList
-    .add("hidden");
-
-  document
-    .getElementById("chatButton")
-    .classList
-    .remove("hidden");
+function showSignup() {
+  document.getElementById("signupBox").classList.remove("hidden");
+  document.getElementById("loginBox").classList.add("hidden");
 }
 
-function sendMessage(){
+function showLogin() {
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("signupBox").classList.add("hidden");
+}
 
-  const input =
-    document.getElementById("chatInput");
+function enterStore() {
+  document.getElementById("welcomeScreen").classList.add("hidden");
+  document.getElementById("storeApp").classList.remove("hidden");
+  updateCart();
+  loadProducts();
+  loadRecommendations();
+  loadAnnouncements();
+}
 
-  const messages =
-    document.getElementById("chatMessages");
+function showScreen(name) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
 
-  if(!input.value.trim()) return;
+  document.getElementById("screen-" + name).classList.add("active");
 
-  messages.innerHTML += `
-    <p>
-      <b>You:</b>
-      ${input.value}
-    </p>
+  if (name === "cart") updateCart();
+  if (name === "wishlist") loadWishlist();
+  if (name === "home") loadRecommendations();
+}
 
-    <p>
-      <b>Bot:</b>
-      I can help with products,
-      STL uploads,
-      checkout,
-      and order tracking.
-    </p>
+async function checkMe() {
+  const res = await fetch("/api/auth/me");
+  const data = await res.json();
+
+  if (data.loggedIn) {
+    currentUser = data.user;
+    document.getElementById("welcomeStatus").innerHTML = "Logged in as <b>" + data.user.username + "</b>";
+
+    const userBadge = document.getElementById("userBadge");
+    if (userBadge) userBadge.innerText = data.user.username;
+
+    const accountInfo = document.getElementById("accountInfo");
+    if (accountInfo) {
+      accountInfo.innerHTML = "Logged in as <b>" + data.user.username + "</b><br>" + data.user.email;
+    }
+
+    const customerEmail = document.getElementById("customerEmail");
+    const customerPhone = document.getElementById("customerPhone");
+
+    if (customerEmail) customerEmail.value = data.user.email || "";
+    if (customerPhone) customerPhone.value = data.user.phone || "";
+  }
+}
+
+async function signup() {
+  const res = await fetch("/api/auth/signup", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      username: document.getElementById("signupUsername").value.trim(),
+      email: document.getElementById("signupEmail").value.trim(),
+      phone: document.getElementById("signupPhone").value.trim(),
+      password: document.getElementById("signupPassword").value
+    })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert(data.error || "Signup failed.");
+    return;
+  }
+
+  currentUser = data.user;
+  enterStore();
+  checkMe();
+}
+
+async function login() {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      emailOrUsername: document.getElementById("loginEmailOrUsername").value.trim(),
+      password: document.getElementById("loginPassword").value
+    })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert(data.error || "Login failed.");
+    return;
+  }
+
+  currentUser = data.user;
+  enterStore();
+  checkMe();
+}
+
+async function logout() {
+  await fetch("/api/auth/logout", { method: "POST" });
+  localStorage.removeItem("cart");
+  location.reload();
+}
+
+async function loadAnnouncements() {
+  const res = await fetch("/api/announcements");
+  const list = await res.json();
+
+  if (list.length) {
+    document.getElementById("saleBanner").classList.remove("hidden");
+    document.getElementById("saleBanner").innerText = list[0].text;
+  }
+}
+
+function setCategory(category) {
+  document.getElementById("categoryFilter").value = category;
+  searchProducts();
+}
+
+async function loadProducts() {
+  const res = await fetch("/api/products");
+  products = await res.json();
+  renderProducts(products, document.getElementById("products"));
+}
+
+async function searchProducts() {
+  const q = document.getElementById("searchInput").value.trim();
+  const category = document.getElementById("categoryFilter").value;
+
+  const res = await fetch("/api/products/search?q=" + encodeURIComponent(q) + "&category=" + encodeURIComponent(category));
+  products = await res.json();
+
+  renderProducts(products, document.getElementById("products"));
+}
+
+async function loadRecommendations() {
+  const res = await fetch("/api/recommendations");
+  const list = await res.json();
+  renderProducts(list, document.getElementById("recommended"));
+}
+
+function renderProducts(list, box) {
+  if (!box) return;
+
+  if (!list.length) {
+    box.innerHTML = "<p class='muted'>No products found.</p>";
+    return;
+  }
+
+  box.innerHTML = "";
+
+  list.forEach(product => {
+    let stockClass = "in-stock";
+    let stockText = "In stock: " + product.stock;
+
+    if (product.stock <= 3 && product.stock > 0) {
+      stockClass = "low-stock";
+      stockText = "Low stock: " + product.stock;
+    }
+
+    if (product.stock <= 0) {
+      stockClass = "sold-out";
+      stockText = "Sold out";
+    }
+
+    const saleHtml = product.onSale
+      ? `<div class="sale">SALE ${product.discountPercent}% OFF</div>
+         <div class="old-price">$${money(product.price)}</div>
+         <div class="price">$${money(product.finalPrice)}</div>`
+      : `<div class="price">$${money(product.price)}</div>`;
+
+    box.innerHTML += `
+      <div class="card">
+        <img src="${product.image}" alt="${product.name}">
+
+        <div class="product-top">
+          <div>
+            <h2>${product.name}</h2>
+            <p class="muted">${product.category}</p>
+          </div>
+          <div>${saleHtml}</div>
+        </div>
+
+        <p class="muted">${product.description}</p>
+        <span class="pill ${stockClass}">${stockText}</span>
+
+        <model-viewer src="${product.model}" camera-controls auto-rotate></model-viewer>
+
+        <button ${product.stock <= 0 ? "disabled" : ""} onclick="addToCart(${product.id})">
+          Add to Cart
+        </button>
+
+        <button class="secondary" onclick="toggleWishlist(${product.id})">
+          ♡ Favorite
+        </button>
+      </div>
+    `;
+  });
+
+  updateCart();
+}
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+
+  if (!product) {
+    alert("Open the shop tab and try again.");
+    return;
+  }
+
+  const existing = cart.find(item => item.id === id);
+
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.finalPrice || product.price,
+      qty: 1
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+  alert(product.name + " added to cart.");
+}
+
+function updateCart() {
+  const cartCount = document.getElementById("cartCount");
+  if (cartCount) {
+    cartCount.innerText = cart.reduce((sum, item) => sum + Number(item.qty), 0);
+  }
+
+  const cartPreview = document.getElementById("cartPreview");
+  if (!cartPreview) return;
+
+  if (!cart.length) {
+    cartPreview.innerHTML = "Your cart is empty.";
+    return;
+  }
+
+  let subtotal = cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0);
+  let discount = coupon ? subtotal * Number(coupon.discountPercent) / 100 : 0;
+  let total = subtotal - discount;
+
+  cartPreview.innerHTML = `
+    <h3>Your Cart</h3>
+    ${cart.map(item => `
+      <p>
+        ${item.name} x ${item.qty} — $${money(item.price * item.qty)}
+        <button class="secondary" onclick="removeFromCart(${item.id})">Remove</button>
+      </p>
+    `).join("")}
+    <p>Subtotal: $${money(subtotal)}</p>
+    <p>Discount: $${money(discount)}</p>
+    <h3>Total: $${money(total)}</h3>
   `;
-
-  input.value = "";
-
-  messages.scrollTop =
-    messages.scrollHeight;
 }
 
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+}
+
+async function applyCoupon() {
+  const code = document.getElementById("couponCode").value.trim();
+
+  const res = await fetch("/api/coupon/check", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ code })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    coupon = null;
+    document.getElementById("couponStatus").innerText = "Invalid coupon.";
+    updateCart();
+    return;
+  }
+
+  coupon = data.coupon;
+  document.getElementById("couponStatus").innerText =
+    coupon.code + " applied: " + coupon.discountPercent + "% off.";
+
+  updateCart();
+}
+
+async function uploadSTL() {
+  const file = document.getElementById("stlFile").files[0];
+
+  if (!file) {
+    alert("Choose an STL/model file first.");
+    return;
+  }
+
+  const fd = new FormData();
+  fd.append("stl", file);
+
+  const res = await fetch("/api/upload-stl", {
+    method: "POST",
+    body: fd
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert("Upload failed.");
+    return;
+  }
+
+  uploadedSTL = data.url;
+  document.getElementById("stlStatus").innerText = "Uploaded: " + data.url;
+}
+
+async function placeOrder() {
+  const body = {
+    name: document.getElementById("customerName").value.trim(),
+    phone: document.getElementById("customerPhone").value.trim(),
+    email: document.getElementById("customerEmail").value.trim(),
+    streetAddress: document.getElementById("streetAddress").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    state: document.getElementById("state").value.trim(),
+    zip: document.getElementById("zip").value.trim(),
+    notes: document.getElementById("orderNotes").value.trim(),
+    cart,
+    stlUrl: uploadedSTL,
+    couponCode: coupon ? coupon.code : ""
+  };
+
+  if (!body.name || !body.phone || !body.email || !body.streetAddress || !body.city || !body.state || !body.zip) {
+    alert("Fill out all checkout fields.");
+    return;
+  }
+
+  if (!cart.length) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const res = await fetch("/api/order", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert(data.error || "Checkout failed.");
+    return;
+  }
+
+  localStorage.removeItem("cart");
+  cart = [];
+
+  alert("Order saved! Your order number is " + data.orderId + ". Going to PayPal.");
+  window.location.href = data.paypal;
+}
+
+async function loadOrders() {
+  const phone = document.getElementById("trackPhone").value.trim();
+
+  if (!phone) {
+    alert("Enter your phone number.");
+    return;
+  }
+
+  const res = await fetch("/api/orders/" + encodeURIComponent(phone));
+  const orders = await res.json();
+
+  renderOrders(orders);
+}
+
+async function loadCustomerOrders() {
+  const res = await fetch("/api/customer/orders");
+  const orders = await res.json();
+
+  if (!Array.isArray(orders)) {
+    alert("Log in first.");
+    return;
+  }
+
+  renderOrders(orders);
+}
+
+function renderOrders(orders) {
+  const box = document.getElementById("ordersBox");
+
+  box.innerHTML = orders.length
+    ? orders.map(order => `
+      <div class="order-card">
+        <h3>${order.id}</h3>
+        <p>Status: <b>${order.status}</b></p>
+        <p>Total: $${order.total}</p>
+        <p>${order.cart.map(item => `${item.name} x ${item.qty}`).join(", ")}</p>
+      </div>
+    `).join("")
+    : "<p class='muted'>No orders found.</p>";
+}
+
+async function toggleWishlist(id) {
+  const res = await fetch("/api/wishlist/" + id, {
+    method: "POST"
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert("Log in first to save favorites.");
+    return;
+  }
+
+  alert("Wishlist updated.");
+}
+
+async function loadWishlist() {
+  const res = await fetch("/api/wishlist");
+  const data = await res.json();
+
+  const box = document.getElementById("wishlistBox");
+
+  if (!Array.isArray(data)) {
+    box.innerHTML = "<p class='muted'>Log in to use wishlist.</p>";
+    return;
+  }
+
+  renderProducts(data, box);
+}
+
+function openChat() {
+  document.getElementById("chat").classList.remove("hidden");
+  document.getElementById("chatLauncher").classList.add("hidden");
+}
+
+function closeChat() {
+  document.getElementById("chat").classList.add("hidden");
+  document.getElementById("chatLauncher").classList.remove("hidden");
+}
+
+async function askBot() {
+  const inputBox = document.getElementById("chatInput");
+  const input = inputBox.value.trim();
+  const messages = document.getElementById("chatMessages");
+
+  if (!input) return;
+
+  messages.innerHTML += `<p><b>You:</b> ${input}</p>`;
+  inputBox.value = "";
+
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ message: input })
+  });
+
+  const data = await res.json();
+
+  messages.innerHTML += `<p><b>Bot:</b> ${data.answer}</p>`;
+  messages.scrollTop = messages.scrollHeight;
+}
+
+checkMe();
+
+const requestedScreen = localStorage.getItem("apexOpenScreen");
+
+if (requestedScreen) {
+  localStorage.removeItem("apexOpenScreen");
+  enterStore();
+  showScreen(requestedScreen);
+}
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+}
 </script>
 
 </body>
